@@ -66,14 +66,12 @@ export default function LayoutShell({ children }: LayoutShellProps) {
           })}
         />
       )}
-      <main className={`custom-scrollbar ${mainPadding} lg:pt-0 transition-all duration-300 mx-auto max-w-7xl px-4 overflow-hidden`}>
+      <main className={`custom-scrollbar ${mainPadding} lg:pt-0 transition-all duration-300 mx-auto max-w-7xl px-4 overflow-hidden h-screen`}>
         {/* Wrap page contents in our custom scroll container which disables
             native scrollbars and handles wheel + keyboard scrolling. */}
-        <div className="h-full min-h-[100vh]">
-          <CustomScroll className="h-full">
-            {children}
-          </CustomScroll>
-        </div>
+        <CustomScroll className="h-full" captureOnBody>
+          {children}
+        </CustomScroll>
       </main>
       <ScrollSnapRouter sensitivity={3} thresholdPx={50} />
     </>

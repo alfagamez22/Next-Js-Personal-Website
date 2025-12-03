@@ -4,9 +4,13 @@ import React, { useEffect, useRef, useState, useCallback } from 'react';
 interface CustomScrollProps {
   children: React.ReactNode;
   className?: string;
+  /** If true, capture wheel events from the whole body/window and scroll
+   * the content if possible. This allows users to scroll the content even
+   * when they are not directly hovering the scrollable area. */
+  captureOnBody?: boolean;
 }
 
-export default function CustomScroll({ children, className = '' }: CustomScrollProps) {
+export default function CustomScroll({ children, className = '', captureOnBody = false }: CustomScrollProps) {
   const viewportRef = useRef<HTMLDivElement | null>(null);
   const contentRef = useRef<HTMLDivElement | null>(null);
   const thumbRef = useRef<HTMLDivElement | null>(null);
@@ -37,16 +41,44 @@ export default function CustomScroll({ children, className = '' }: CustomScrollP
 
   useEffect(() => {
     const content = contentRef.current;
-    if (!content) return;
+    const viewport = viewportRef.current;
+    if (!content || !viewport) return;
     // update on mount asynchronously to avoid sync setState in effect
     const id = window.setTimeout(() => updateThumb(), 0);
+    // Also update after a short delay to catch late-rendered content
+    const id2 = window.setTimeout(() => updateThumb(), 100);
+    const id3 = window.setTimeout(() => updateThumb(), 500);
     const onScroll = () => updateThumb();
     content.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', updateThumb);
+
+    // Use ResizeObserver to detect content size changes
+    let resizeObserver: ResizeObserver | null = null;
+    if (typeof ResizeObserver !== 'undefined') {
+      resizeObserver = new ResizeObserver(() => {
+        window.setTimeout(() => updateThumb(), 0);
+      });
+      resizeObserver.observe(content);
+      resizeObserver.observe(viewport);
+    }
+
+    // Use MutationObserver to detect DOM changes
+    let mutationObserver: MutationObserver | null = null;
+    if (typeof MutationObserver !== 'undefined') {
+      mutationObserver = new MutationObserver(() => {
+        window.setTimeout(() => updateThumb(), 0);
+      });
+      mutationObserver.observe(content, { childList: true, subtree: true });
+    }
+
     return () => {
       clearTimeout(id);
+      clearTimeout(id2);
+      clearTimeout(id3);
       content.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', updateThumb);
+      resizeObserver?.disconnect();
+      mutationObserver?.disconnect();
     };
   }, [updateThumb]);
 
@@ -60,24 +92,69 @@ export default function CustomScroll({ children, className = '' }: CustomScrollP
       const delta = e.deltaY;
       const contentLocal = contentRef.current;
       if (!contentLocal) return;
-      const canScrollDown = contentLocal.scrollTop + contentLocal.clientHeight < contentLocal.scrollHeight;
-      const canScrollUp = contentLocal.scrollTop > 0;
+      const canScrollDown = contentLocal.scrollTop + contentLocal.clientHeight < contentLocal.scrollHeight - 1;
+      const canScrollUp = contentLocal.scrollTop > 1;
 
       // If the content can be scrolled in the intended direction, prevent the
       // native behavior and handle it with our custom scroller.
       if ((delta > 0 && canScrollDown) || (delta < 0 && canScrollUp)) {
         e.preventDefault();
+        e.stopPropagation();
         contentLocal.scrollBy({ top: delta, behavior: 'auto' });
       } else {
-        // Otherwise, let the event bubble up to allow top/bottom window-level
-        // handlers such as `ScrollSnapRouter` to pick it up and navigate.
+        // At the boundary - dispatch a custom event so ScrollSnapRouter knows
+        // we're at the edge and can handle page navigation
+        const atTop = contentLocal.scrollTop <= 1;
+        const atBottom = contentLocal.scrollTop + contentLocal.clientHeight >= contentLocal.scrollHeight - 1;
+        window.dispatchEvent(new CustomEvent('customscroll-boundary', {
+          detail: { atTop, atBottom, deltaY: delta }
+        }));
       }
     }
 
     // Use non-passive so we can prevent default
     viewport.addEventListener('wheel', onWheel, { passive: false });
-    return () => viewport.removeEventListener('wheel', onWheel);
-  }, []);
+
+    // Optionally capture wheel events at the window level (body hover)
+    function onWindowWheel(e: WheelEvent) {
+      const target = e.target as HTMLElement | null;
+      if (!target) return;
+      // If the event target is within the viewport, let the viewport handler
+      // process it and skip here.
+      const viewportLocal = viewportRef.current;
+      if (viewportLocal && viewportLocal.contains(target)) return;
+      // If the event originates from an input-like element, ignore.
+      const interactive = target.closest && target.closest('input, textarea, select, button, [contenteditable]');
+      if (interactive) return;
+      // If there is another scrollable container (like a chat box or other
+      // hide-native-scrollbar), don't intercept the wheel event.
+      const contentLocal = contentRef.current;
+      const scrolledAncestor = target.closest && (target.closest('.hide-native-scrollbar') as HTMLElement | null);
+      if (scrolledAncestor && scrolledAncestor !== contentLocal) return;
+      if (!contentLocal) return;
+      const delta = e.deltaY;
+      const canScrollDown = contentLocal.scrollTop + contentLocal.clientHeight < contentLocal.scrollHeight - 1;
+      const canScrollUp = contentLocal.scrollTop > 1;
+      if ((delta > 0 && canScrollDown) || (delta < 0 && canScrollUp)) {
+        e.preventDefault();
+        e.stopPropagation();
+        contentLocal.scrollBy({ top: delta, behavior: 'auto' });
+      } else {
+        // At boundary - dispatch a custom event so ScrollSnapRouter knows
+        // we're at the edge and can handle page navigation
+        const atTop = contentLocal.scrollTop <= 1;
+        const atBottom = contentLocal.scrollTop + contentLocal.clientHeight >= contentLocal.scrollHeight - 1;
+        window.dispatchEvent(new CustomEvent('customscroll-boundary', {
+          detail: { atTop, atBottom, deltaY: delta }
+        }));
+      }
+    }
+    if (captureOnBody) window.addEventListener('wheel', onWindowWheel, { passive: false });
+    return () => {
+      viewport.removeEventListener('wheel', onWheel);
+      if (captureOnBody) window.removeEventListener('wheel', onWindowWheel as EventListener);
+    };
+  }, [captureOnBody]);
 
   // Keyboard support for accessibility
   useEffect(() => {

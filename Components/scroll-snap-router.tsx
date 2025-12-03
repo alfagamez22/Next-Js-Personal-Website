@@ -33,18 +33,6 @@ export default function ScrollSnapRouter({ sensitivity = 3, thresholdPx = 50 }: 
       return idx > 0;
     }
 
-    function isNearBottom() {
-      const scrollY = window.scrollY || window.pageYOffset;
-      const h = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
-      const inner = window.innerHeight;
-      return scrollY + inner >= h - thresholdPx;
-    }
-
-    function isNearTop() {
-      const scrollY = window.scrollY || window.pageYOffset;
-      return scrollY <= thresholdPx;
-    }
-
     function goToNext() {
       const idx = ROUTES.indexOf(pathname);
       if (idx >= 0 && idx < ROUTES.length - 1) {
@@ -72,8 +60,13 @@ export default function ScrollSnapRouter({ sensitivity = 3, thresholdPx = 50 }: 
       }, 900);
     }
 
-    function handleWheel(e: WheelEvent) {
+    // Handle boundary events from CustomScroll component
+    function handleBoundary(e: Event) {
       if (cooldownRef.current) return;
+      const detail = (e as CustomEvent).detail;
+      if (!detail) return;
+      
+      const { atTop, atBottom, deltaY } = detail;
       const now = Date.now();
       const lastTs = lastWheelTsRef.current || 0;
       // reset counters if long time passed
@@ -83,16 +76,13 @@ export default function ScrollSnapRouter({ sensitivity = 3, thresholdPx = 50 }: 
       }
       lastWheelTsRef.current = now;
 
-      const deltaY = e.deltaY;
-      if (deltaY > 0) {
-        // scrolling down
-        if (!canSnapDown()) return; // do nothing if no next page
-        if (!isNearBottom()) return; // only when near bottom
+      if (deltaY > 0 && atBottom) {
+        // scrolling down at bottom
+        if (!canSnapDown()) return;
         downCountRef.current += 1;
         upCountRef.current = 0;
         show('down');
         if (downCountRef.current >= sensitivity) {
-          // trigger
           cooldownRef.current = true;
           setShowIndicator(true);
           setTimeout(() => {
@@ -102,10 +92,9 @@ export default function ScrollSnapRouter({ sensitivity = 3, thresholdPx = 50 }: 
             setShowIndicator(false);
           }, 300);
         }
-      } else if (deltaY < 0) {
-        // scrolling up
+      } else if (deltaY < 0 && atTop) {
+        // scrolling up at top
         if (!canSnapUp()) return;
-        if (!isNearTop()) return;
         upCountRef.current += 1;
         downCountRef.current = 0;
         show('up');
@@ -122,9 +111,9 @@ export default function ScrollSnapRouter({ sensitivity = 3, thresholdPx = 50 }: 
       }
     }
 
-    window.addEventListener('wheel', handleWheel, { passive: true });
+    window.addEventListener('customscroll-boundary', handleBoundary);
     return () => {
-      window.removeEventListener('wheel', handleWheel);
+      window.removeEventListener('customscroll-boundary', handleBoundary);
       if (showTimeoutRef.current) window.clearTimeout(showTimeoutRef.current);
     };
   }, [pathname, router, sensitivity, thresholdPx]);
