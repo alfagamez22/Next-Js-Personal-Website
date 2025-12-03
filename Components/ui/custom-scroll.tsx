@@ -58,14 +58,16 @@ export default function CustomScroll({ children, className = '' }: CustomScrollP
 
     function onWheel(e: WheelEvent) {
       const delta = e.deltaY;
-      const canScrollDown = content.scrollTop + content.clientHeight < content.scrollHeight;
-      const canScrollUp = content.scrollTop > 0;
+      const contentLocal = contentRef.current;
+      if (!contentLocal) return;
+      const canScrollDown = contentLocal.scrollTop + contentLocal.clientHeight < contentLocal.scrollHeight;
+      const canScrollUp = contentLocal.scrollTop > 0;
 
       // If the content can be scrolled in the intended direction, prevent the
       // native behavior and handle it with our custom scroller.
       if ((delta > 0 && canScrollDown) || (delta < 0 && canScrollUp)) {
         e.preventDefault();
-        content.scrollBy({ top: delta, behavior: 'auto' });
+        contentLocal.scrollBy({ top: delta, behavior: 'auto' });
       } else {
         // Otherwise, let the event bubble up to allow top/bottom window-level
         // handlers such as `ScrollSnapRouter` to pick it up and navigate.
@@ -83,24 +85,26 @@ export default function CustomScroll({ children, className = '' }: CustomScrollP
     const content = contentRef.current;
     if (!viewport || !content) return;
     function onKey(e: KeyboardEvent) {
+      const contentLocal = contentRef.current;
+      if (!contentLocal) return;
       if (e.key === 'ArrowDown') {
         e.preventDefault();
-        content.scrollBy({ top: 48, behavior: 'smooth' });
+        contentLocal.scrollBy({ top: 48, behavior: 'smooth' });
       } else if (e.key === 'ArrowUp') {
         e.preventDefault();
-        content.scrollBy({ top: -48, behavior: 'smooth' });
+        contentLocal.scrollBy({ top: -48, behavior: 'smooth' });
       } else if (e.key === 'PageDown') {
         e.preventDefault();
-        content.scrollBy({ top: content.clientHeight, behavior: 'smooth' });
+        contentLocal.scrollBy({ top: contentLocal.clientHeight, behavior: 'smooth' });
       } else if (e.key === 'PageUp') {
         e.preventDefault();
-        content.scrollBy({ top: -content.clientHeight, behavior: 'smooth' });
+        contentLocal.scrollBy({ top: -contentLocal.clientHeight, behavior: 'smooth' });
       } else if (e.key === 'Home') {
         e.preventDefault();
-        content.scrollTo({ top: 0, behavior: 'smooth' });
+        contentLocal.scrollTo({ top: 0, behavior: 'smooth' });
       } else if (e.key === 'End') {
         e.preventDefault();
-        content.scrollTo({ top: content.scrollHeight, behavior: 'smooth' });
+        contentLocal.scrollTo({ top: contentLocal.scrollHeight, behavior: 'smooth' });
       }
     }
     viewport.addEventListener('keydown', onKey);
@@ -115,19 +119,25 @@ export default function CustomScroll({ children, className = '' }: CustomScrollP
     if (!content || !thumb || !viewport) return;
 
     function onPointerDown(e: PointerEvent) {
+      const thumbLocal = thumbRef.current;
+      if (!thumbLocal) return;
       draggingRef.current = true;
       dragStartYRef.current = e.clientY;
       thumbStartTopRef.current = thumbTop;
-      (e.target as Element).setPointerCapture(e.pointerId);
+      try { (e.target as Element).setPointerCapture(e.pointerId); } catch {}
     }
 
     function onPointerMove(e: PointerEvent) {
       if (!draggingRef.current) return;
+      const contentLocal = contentRef.current;
+      const thumbLocal = thumbRef.current;
+      const viewportLocal = viewportRef.current;
+      if (!contentLocal || !thumbLocal || !viewportLocal) return;
       const dy = e.clientY - dragStartYRef.current;
-      const trackHeight = viewport.clientHeight - thumb.clientHeight;
+      const trackHeight = viewportLocal.clientHeight - thumbLocal.clientHeight;
       const nextTop = Math.max(0, Math.min(trackHeight, thumbStartTopRef.current + dy));
       const scrollRatio = nextTop / Math.max(1, trackHeight);
-      content.scrollTop = scrollRatio * (content.scrollHeight - content.clientHeight);
+      contentLocal.scrollTop = scrollRatio * (contentLocal.scrollHeight - contentLocal.clientHeight);
     }
 
     function onPointerUp(e: PointerEvent) {
