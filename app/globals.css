@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #000000;
+  --foreground: #ffffff;
 }
 
 @theme inline {
@@ -12,15 +12,83 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
 }
+
+/* Custom cursor across the whole site. 16 16 sets the hotspot to the center-ish of the svg. */
+html, body, * {
+  /* Use main svg cursor, and an inline SVG data fallback; then default to auto */
+  cursor: url('/images/cursor.svg') 16 16, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Cpolygon points='0,0 24,12 0,24' fill='%23ffffff'/%3E%3C/svg%3E") 16 16, auto;
+}
+
+/* For interactive elements, keep pointer semantics but still use the custom cursor */
+a, a * , button, input, textarea, select, label, [role="button"] {
+  /* Maintain pointer semantics for interactive elements, still using the custom cursor */
+  cursor: url('/images/cursor.svg') 16 16, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Cpolygon points='0,0 24,12 0,24' fill='%23ffffff'/%3E%3C/svg%3E") 16 16, pointer;
+}
+
+/* If any element should hide the custom cursor (e.g., the OS native cursor is desired), apply .native-cursor */
+.native-cursor {
+  cursor: auto !important;
+}
+
+/* Custom Scrollbar */
+/* Apply site-wide defaults via html/body and provide a utility class `.custom-scrollbar` for explicit usage */
+html, body, #__next, .custom-scrollbar {
+  /* We'll hide native scrollbars by default and allow the custom
+     scroll component to render its own track. Firefox uses
+     scrollbar-width: none; to fully hide. */
+  scrollbar-width: none; /* Firefox - hides native scrollbar */
+}
+
+/* Webkit-based browsers */
+.custom-scrollbar::-webkit-scrollbar, html::-webkit-scrollbar, body::-webkit-scrollbar, #__next::-webkit-scrollbar {
+  display: none; /* Hide native webkit scrollbar */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track, html::-webkit-scrollbar-track, body::-webkit-scrollbar-track, #__next::-webkit-scrollbar-track {
+  background: #0a0a0a; /* dark track for contrast with black theme */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb, html::-webkit-scrollbar-thumb, body::-webkit-scrollbar-thumb, #__next::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #ffffff 0%, #000 60%, #bfbfbf 100%);
+  border-radius: 10px;
+  transition: box-shadow 120ms ease, filter 120ms ease, background 120ms ease;
+}
+
+/* Hover affordance: slightly brighten and add subtle inset glow */
+.custom-scrollbar::-webkit-scrollbar-thumb:hover,
+html::-webkit-scrollbar-thumb:hover,
+body::-webkit-scrollbar-thumb:hover,
+#__next::-webkit-scrollbar-thumb:hover {
+  filter: brightness(1.25);
+  box-shadow: inset 0 0 0 2px rgba(255,255,255,0.06);
+}
+
+/* Accessibility class to ensure large, visible thumb if needed */
+.custom-scrollbar--high-contrast::-webkit-scrollbar-thumb,
+.custom-scrollbar--high-contrast {
+  background: #ffffff;
+  border-radius: 10px;
+}
+
+/* Make hover more obvious for accessibility */
+.custom-scrollbar--high-contrast::-webkit-scrollbar-thumb:hover,
+.custom-scrollbar--high-contrast:hover {
+  background: #ffffff;
+  box-shadow: inset 0 0 0 3px rgba(0,0,0,0.08);
+}
+
+/* Hide default outline on body scrollbars for clean appearance (keeps focus outline on interactive elements) */
+body::-webkit-scrollbar-corner { background: transparent; }
+
+/* Utility class to hide native scrollbars on any element */
+.hide-native-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.hide-native-scrollbar::-webkit-scrollbar { display: none; }
+
