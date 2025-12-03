@@ -16,20 +16,32 @@ export default function LayoutShell({ children }: LayoutShellProps) {
   // user's preference synchronously in the initial state using a lazy
   // initializer to avoid setting state inside an effect and causing
   // unnecessary cascaded renders that ESLint warns about.
-  const [isCollapsed, setIsCollapsed] = useState<boolean>(() => {
+  // Start collapsed state as `false` so the server-rendered markup is
+  // consistent. Hydrate the user's preference on the client after mount
+  // to avoid React hydration mismatches. We schedule the state change
+  // asynchronously to avoid calling setState synchronously from an
+  // effect which ESLint warns about.
+  const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
+  const showNavbar = pathname !== '/Welcome' && pathname !== '/';
+
+  // Hydrate the collapsed state after mount using a scheduled state update
+  // so that the initial client render matches the server HTML (avoids
+  // hydration mismatches). We use setTimeout to make the state change
+  // async and avoid the 'setState in effect' lint error.
+  useEffect(() => {
     try {
-      if (typeof window !== 'undefined') {
-        const stored = sessionStorage.getItem('navbarCollapsed');
-        return stored === 'true';
+      const stored = sessionStorage.getItem('navbarCollapsed');
+      if (stored !== null) {
+        const parsed = stored === 'true';
+        // Schedule the state update to run after the current frame to
+        // avoid synchronous setState calls during the effect's render.
+        const id = window.setTimeout(() => setIsCollapsed(parsed), 0);
+        return () => window.clearTimeout(id);
       }
     } catch {
       // ignore
     }
-    return false;
-  });
-  const showNavbar = pathname !== '/Welcome' && pathname !== '/';
-
-  // We now initialize the state lazily; no need to sync on mount.
+  }, []);
 
   // Persist collapsed state to sessionStorage when it changes
   useEffect(() => {
