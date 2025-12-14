@@ -27,30 +27,25 @@ export default function ContactPage() {
   return (
     <div className="min-h-screen py-20 px-4 sm:px-6 lg:px-8 bg-white dark:bg-black">
       <div className="max-w-4xl mx-auto">
+
         {/* Header */}
         <div className="text-center mb-16">
-          <h1 className="text-5xl font-bold text-zinc-900 dark:text-white mb-4">
-            Get In Touch
-          </h1>
+          <h1 className="text-5xl font-bold text-zinc-900 dark:text-white mb-4">Get In Touch</h1>
           <p className="text-xl text-zinc-600 dark:text-zinc-400">
             Have a question or want to work together? I&apos;d love to hear from you.
           </p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-12">
+
           {/* Contact Form */}
           <div>
-            <h2 className="text-2xl font-bold text-zinc-900 dark:text-white mb-6">
-              Send Me a Message
-            </h2>
+            <h2 className="text-2xl font-bold text-zinc-900 dark:text-white mb-6">Send Me a Message</h2>
             <form onSubmit={handleSubmit} className="space-y-6">
+
+              {/* Name Area */}
               <div>
-                <label
-                  htmlFor="name"
-                  className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2"
-                >
-                  Name
-                </label>
+                <label htmlFor="name" className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2">Name</label>
                 <input
                   type="text"
                   id="name"
@@ -63,13 +58,9 @@ export default function ContactPage() {
                 />
               </div>
 
+              {/* Email Area */}
               <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2"
-                >
-                  Email
-                </label>
+                <label htmlFor="email" className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2">Email</label>
                 <input
                   type="email"
                   id="email"
@@ -82,13 +73,9 @@ export default function ContactPage() {
                 />
               </div>
 
+                {/* Message Area */}
               <div>
-                <label
-                  htmlFor="message"
-                  className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2"
-                >
-                  Message
-                </label>
+                <label htmlFor="message" className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2">Message</label>
                 <textarea
                   id="message"
                   name="message"
@@ -101,20 +88,16 @@ export default function ContactPage() {
                 />
               </div>
 
-              <button
-                type="submit"
-                className="w-full px-6 py-4 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 rounded-lg font-semibold hover:bg-zinc-800 dark:hover:bg-zinc-100 transition-colors shadow-lg hover:shadow-xl"
-              >
+              <button type="submit" className="w-full px-6 py-4 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 rounded-lg font-semibold hover:bg-zinc-800 dark:hover:bg-zinc-100 transition-colors shadow-lg hover:shadow-xl">
                 Send Message
               </button>
             </form>
           </div>
 
-          {/* Contact Info */}
+          {/* Contact Information */}
           <div>
-            <h2 className="text-2xl font-bold text-zinc-900 dark:text-white mb-6">
-              Contact Information
-            </h2>
+            <h2 className="text-2xl font-bold text-zinc-900 dark:text-white mb-6">Contact Information</h2>
+
             <div className="space-y-6">
               <div className="p-6 bg-zinc-50 dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800">
                 <h3 className="font-semibold text-zinc-900 dark:text-white mb-2">
@@ -124,7 +107,7 @@ export default function ContactPage() {
                   href="mailto:your.email@example.com"
                   className="text-zinc-900 dark:text-zinc-100 hover:underline"
                 >
-                  your.email@example.com
+                  dhannielbuan@gmail.com
                 </a>
               </div>
 
@@ -133,7 +116,7 @@ export default function ContactPage() {
                   📍 Location
                 </h3>
                 <p className="text-zinc-600 dark:text-zinc-400">
-                  Your City, Your Country
+                  Antipolo City, Philippines
                 </p>
               </div>
 
@@ -143,7 +126,7 @@ export default function ContactPage() {
                 </h3>
                 <div className="space-y-2">
                   <a
-                    href="https://github.com/yourusername"
+                    href="https://github.com/alfagamez22"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="block text-zinc-900 dark:text-zinc-100 hover:underline"
@@ -151,24 +134,17 @@ export default function ContactPage() {
                     GitHub
                   </a>
                   <a
-                    href="https://linkedin.com/in/yourusername"
+                    href="https://linkedin.com/in/dhbuan"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="block text-zinc-900 dark:text-zinc-100 hover:underline"
                   >
                     LinkedIn
                   </a>
-                  <a
-                    href="https://twitter.com/yourusername"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block text-zinc-900 dark:text-zinc-100 hover:underline"
-                  >
-                    Twitter
-                  </a>
                 </div>
               </div>
             </div>
+
           </div>
         </div>
       </div>

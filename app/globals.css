@@ -92,3 +92,65 @@ body::-webkit-scrollbar-corner { background: transparent; }
 }
 .hide-native-scrollbar::-webkit-scrollbar { display: none; }
 
+/* Infinite Scroll Animation */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll {
+  animation: scroll 20s linear infinite;
+}
+
+.mask-gradient {
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+/* Glowing hover effect for cards (used in Hobbies and can be reused) */
+.glow-card {
+  position: relative;
+  overflow: hidden;
+  z-index: 0;
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+.glow-card::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+  width: 140%;
+  height: 100%;
+  /* Grayish soft glow: works in light and dark — subtle center rise */
+  background: linear-gradient(90deg, rgba(120,120,120,0.16), rgba(200,200,200,0.06));
+  filter: blur(28px);
+  opacity: 0;
+  transition: opacity 250ms ease, transform 300ms ease;
+  pointer-events: none;
+  z-index: -1;
+}
+.glow-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 36px rgba(100,100,100,0.10);
+}
+.glow-card:hover::before {
+  opacity: 1;
+  transform: translateX(-50%) scale(1.04);
+}
+
+/* Dark-mode variant: slightly brighter gray/white shimmer so it stands out on dark backgrounds */
+.dark .glow-card::before {
+  background: linear-gradient(90deg, rgba(255,255,255,0.06), rgba(160,160,160,0.08));
+}
+
+/* Make the card focusable and show a visible focus state for keyboard users */
+.glow-card:focus-visible {
+  outline: 2px solid rgba(120,120,120,0.18);
+  outline-offset: 4px;
+}
+
