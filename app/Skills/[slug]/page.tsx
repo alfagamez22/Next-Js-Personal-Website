@@ -17,45 +17,45 @@ export default async function SkillPage({ params }: { params: Promise<{ slug: st
   }
 
   return (
-    <div className="min-h-screen py-20 px-4 sm:px-6 lg:px-8 bg-white dark:bg-black">
+    <div className="min-h-screen py-20 px-4 sm:px-6 lg:px-8 bg-surface text-primary">
       <div className="max-w-3xl mx-auto">
         {/* Back Button */}
         <Link
           href="/Skills"
-          className="inline-flex items-center text-zinc-900 dark:text-zinc-100 hover:underline mb-8"
+          className="inline-flex items-center text-primary hover:underline mb-8"
         >
           ← Back to Skills
         </Link>
 
         {/* Skill Icon Placeholder */}
-        <div className="w-24 h-24 bg-zinc-800 dark:bg-zinc-200 rounded-xl mb-6 flex items-center justify-center">
-          <span className="text-4xl font-bold text-white dark:text-zinc-900">{skill.title[0]}</span>
+        <div className="w-24 h-24 bg-card rounded-xl mb-6 flex items-center justify-center">
+          <span className="text-4xl font-bold text-primary">{skill.title[0]}</span>
         </div>
 
         {/* Skill Title */}
-        <h1 className="text-4xl sm:text-5xl font-bold text-zinc-900 dark:text-white mb-6">
+        <h1 className="text-4xl sm:text-5xl font-bold text-primary mb-6">
           {skill.title}
         </h1>
 
         {/* Why Paragraph (Optional) */}
         {skill.whyParagraph ? (
           <div className="prose prose-lg dark:prose-invert max-w-none">
-            <h2 className="text-2xl font-semibold text-zinc-900 dark:text-white mb-4">
+            <h2 className="text-2xl font-semibold text-primary mb-4">
               How I Use It
             </h2>
-            <p className="text-lg text-zinc-700 dark:text-zinc-300 leading-relaxed">
+            <p className="text-lg text-muted leading-relaxed">
               {skill.whyParagraph}
             </p>
           </div>
         ) : null}
 
         {/* Divider */}
-        <div className="border-t border-zinc-200 dark:border-zinc-800 my-12" />
+        <div className="border-t border-default my-12" />
 
         {/* Back Link */}
         <Link
           href="/Skills"
-          className="inline-flex items-center text-zinc-900 dark:text-zinc-100 hover:underline"
+          className="inline-flex items-center text-primary hover:underline"
         >
           ← View all skills
         </Link>

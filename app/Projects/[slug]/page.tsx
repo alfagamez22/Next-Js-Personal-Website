@@ -17,46 +17,46 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
   }
 
   return (
-    <div className="min-h-screen py-20 px-4 sm:px-6 lg:px-8 bg-white dark:bg-black">
+    <div className="min-h-screen py-20 px-4 sm:px-6 lg:px-8 bg-surface text-primary">
       <div className="max-w-4xl mx-auto">
         {/* Back Button */}
         <Link
           href="/Projects"
-          className="inline-flex items-center text-zinc-900 dark:text-zinc-100 hover:underline mb-8"
+          className="inline-flex items-center text-primary hover:underline mb-8"
         >
           ← Back to Projects
         </Link>
 
         {/* Project Image Placeholder */}
-        <div className="aspect-video bg-zinc-200 dark:bg-zinc-800 rounded-xl mb-8 relative overflow-hidden">
-          <div className="absolute inset-0 bg-zinc-400 dark:bg-zinc-600 opacity-20" />
+        <div className="aspect-video bg-card rounded-xl mb-8 relative overflow-hidden">
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(90deg, transparent, rgba(88,166,255,0.06))' }} />
           <div className="absolute inset-0 flex items-center justify-center">
             <span className="text-6xl font-bold text-white/30">{project.title[0]}</span>
           </div>
         </div>
 
         {/* Project Title */}
-        <h1 className="text-4xl sm:text-5xl font-bold text-zinc-900 dark:text-white mb-4">
+        <h1 className="text-4xl sm:text-5xl font-bold text-primary mb-4">
           {project.title}
         </h1>
 
         {/* Project Description */}
-        <p className="text-lg text-zinc-600 dark:text-zinc-400 mb-8 leading-relaxed">
+        <p className="text-lg text-muted mb-8 leading-relaxed">
           {project.paragraph}
         </p>
 
         {/* Tech Stack Section */}
         <div className="mb-8">
-          <h2 className="text-2xl font-semibold text-zinc-900 dark:text-white mb-4">
+          <h2 className="text-2xl font-semibold text-primary mb-4">
             Technologies Used
           </h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
             {project.techStackUsed.map((tech) => (
               <div
                 key={tech.name}
-                className="p-4 bg-zinc-50 dark:bg-zinc-900 rounded-lg border border-zinc-200 dark:border-zinc-800"
+                className="p-4 bg-card rounded-lg border border-default"
               >
-                <h3 className="font-semibold text-zinc-900 dark:text-white">
+                <h3 className="font-semibold text-primary">
                   {tech.name}
                 </h3>
               </div>
@@ -71,7 +71,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
               href={project.githubLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-6 py-3 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 rounded-lg font-semibold hover:bg-zinc-800 dark:hover:bg-zinc-100 transition-colors text-center"
+              className="px-6 py-3 bg-accent text-white rounded-lg font-semibold hover:opacity-95 transition-colors text-center"
             >
               View on GitHub
             </a>
@@ -81,7 +81,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
               href={project.websiteLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-6 py-3 bg-zinc-800 dark:bg-zinc-200 text-white dark:text-zinc-900 rounded-lg font-semibold hover:bg-zinc-700 dark:hover:bg-zinc-300 transition-colors text-center"
+              className="px-6 py-3 bg-card text-primary rounded-lg font-semibold border border-default hover:border-accent transition-colors text-center"
             >
               Visit Live Site
             </a>

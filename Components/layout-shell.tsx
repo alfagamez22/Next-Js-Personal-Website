@@ -4,7 +4,6 @@ import { useState, useEffect, type ReactNode } from 'react';
 import { usePathname } from 'next/navigation';
 import Navbar from '@/Components/ui/navbar';
 import ScrollSnapRouter from '@/Components/scroll-snap-router';
-import CustomScroll from '@/Components/ui/custom-scroll';
 
 interface LayoutShellProps {
   children: ReactNode;
@@ -66,12 +65,8 @@ export default function LayoutShell({ children }: LayoutShellProps) {
           })}
         />
       )}
-      <main className={`custom-scrollbar ${mainPadding} lg:pt-0 transition-all duration-300 mx-auto max-w-7xl px-4 overflow-hidden h-screen`}>
-        {/* Wrap page contents in our custom scroll container which disables
-            native scrollbars and handles wheel + keyboard scrolling. */}
-        <CustomScroll className="h-full" captureOnBody>
-          {children}
-        </CustomScroll>
+      <main className={`${mainPadding} lg:pt-0 transition-all duration-300 mx-auto max-w-7xl px-4 min-h-screen`}>
+        {children}
       </main>
       <ScrollSnapRouter sensitivity={3} thresholdPx={50} />
     </>

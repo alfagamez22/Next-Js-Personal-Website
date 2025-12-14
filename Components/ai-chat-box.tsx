@@ -71,7 +71,7 @@ export default function AIChatBox() {
       {/* Chat Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-white text-black rounded-full shadow-lg hover:bg-neutral-200 transition-all hover:scale-110 flex items-center justify-center border border-neutral-200"
+        className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-accent text-white rounded-full shadow-lg hover:opacity-95 transition-all hover:scale-110 flex items-center justify-center border border-default"
         aria-label="Toggle chat"
       >
         {isOpen ? (
@@ -87,11 +87,11 @@ export default function AIChatBox() {
 
       {/* Chat Window */}
       {isOpen && (
-        <div className="fixed bottom-24 right-6 z-50 w-96 h-[500px] bg-black rounded-xl shadow-2xl border border-neutral-800 flex flex-col">
+        <div className="fixed bottom-24 right-6 z-50 w-96 h-[500px] bg-surface rounded-xl shadow-2xl border border-default flex flex-col">
           {/* Header */}
-          <div className="p-4 border-b border-neutral-800 bg-neutral-900 text-white rounded-t-xl">
+          <div className="p-4 border-b border-default bg-card text-primary rounded-t-xl">
             <h3 className="font-semibold text-lg">Portfolio Assistant</h3>
-            <p className="text-sm text-neutral-400">Powered by AI</p>
+            <p className="text-sm text-muted">Powered by AI</p>
           </div>
 
           {/* Messages */}
@@ -104,8 +104,8 @@ export default function AIChatBox() {
                 <div
                   className={`max-w-[80%] px-4 py-2 rounded-lg ${
                     message.role === 'user'
-                      ? 'bg-white text-black'
-                      : 'bg-neutral-900 text-white border border-neutral-800'
+                      ? 'bg-accent text-white'
+                      : 'bg-card text-primary border border-default'
                   }`}
                 >
                   {message.content}
@@ -114,11 +114,11 @@ export default function AIChatBox() {
             ))}
             {isLoading && (
               <div className="flex justify-start">
-                <div className="bg-neutral-900 px-4 py-2 rounded-lg border border-neutral-800">
+                <div className="bg-card px-4 py-2 rounded-lg border border-default">
                   <div className="flex space-x-2">
-                    <div className="w-2 h-2 bg-neutral-500 rounded-full animate-bounce" />
-                    <div className="w-2 h-2 bg-neutral-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }} />
-                    <div className="w-2 h-2 bg-neutral-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }} />
+                    <div className="w-2 h-2 bg-muted rounded-full animate-bounce" />
+                    <div className="w-2 h-2 bg-muted rounded-full animate-bounce" style={{ animationDelay: '0.1s' }} />
+                    <div className="w-2 h-2 bg-muted rounded-full animate-bounce" style={{ animationDelay: '0.2s' }} />
                   </div>
                 </div>
               </div>
@@ -127,20 +127,20 @@ export default function AIChatBox() {
           </div>
 
           {/* Input */}
-          <form onSubmit={handleSubmit} className="p-4 border-t border-neutral-800">
-            <div className="flex gap-2">
+          <form onSubmit={handleSubmit} className="p-4 border-t border-default">
+              <div className="flex gap-2">
               <input
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Ask me anything..."
-                className="flex-1 px-4 py-2 bg-neutral-900 border border-neutral-800 rounded-lg focus:ring-1 focus:ring-white focus:border-transparent outline-none text-white placeholder-neutral-500"
+                className="flex-1 px-4 py-2 bg-card border border-default rounded-lg focus:ring-1 focus:ring-accent focus:border-transparent outline-none text-primary placeholder-muted"
                 disabled={isLoading}
               />
               <button
                 type="submit"
                 disabled={isLoading || !input.trim()}
-                className="px-4 py-2 bg-white text-black rounded-lg hover:bg-neutral-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-4 py-2 bg-accent text-white rounded-lg hover:opacity-95 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />

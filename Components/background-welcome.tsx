@@ -33,9 +33,11 @@ export default function BackgroundWelcome({ onComplete }: BackgroundWelcomeProps
 
   return (
     <div
-      className={`fixed inset-0 z-50 bg-black flex items-center justify-center transition-opacity duration-1000 ${
+      className={`fixed inset-0 z-50 welcome-wallpaper flex items-center justify-center transition-opacity duration-1000 ${
         fadeOut ? 'opacity-0' : 'opacity-100'
       }`}
+      role="dialog"
+      aria-label="Welcome screen"
     >
       <div className="text-center">
         {showTyping && (
@@ -46,7 +48,7 @@ export default function BackgroundWelcome({ onComplete }: BackgroundWelcomeProps
             ]}
             wrapper="h1"
             speed={50}
-            className="text-6xl sm:text-7xl lg:text-8xl font-bold text-white"
+            className="text-6xl sm:text-7xl lg:text-8xl font-bold welcome-title text-primary"
             cursor={true}
             repeat={0}
           />

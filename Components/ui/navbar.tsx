@@ -91,7 +91,7 @@ export default function Navbar({ isCollapsed, onToggle }: NavbarProps) {
       <button
         type="button"
         onClick={onToggle}
-        className={`hidden lg:flex ${isNarrow ? 'hidden' : ''} fixed top-6 z-50 items-center justify-center w-12 h-12 rounded-full bg-black text-white shadow-sm`}
+        className={`hidden lg:flex ${isNarrow ? 'hidden' : ''} fixed top-6 z-50 items-center justify-center w-12 h-12 rounded-full bg-card text-primary shadow-sm`}
         style={{ left: toggleLeft }}
         aria-label={effectiveIsCollapsed ? 'Show navigation menu' : 'Hide navigation menu'}
         aria-expanded={!effectiveIsCollapsed}
@@ -107,18 +107,18 @@ export default function Navbar({ isCollapsed, onToggle }: NavbarProps) {
       {/* Desktop Sidebar (only show on wide viewports) */}
       {!isNarrow && (
         <nav
-          className={`hidden lg:fixed lg:left-0 lg:top-0 lg:h-screen ${widthClass} lg:flex lg:flex-col lg:justify-center lg:bg-black lg:z-50 transition-all duration-300`}
+          className={`hidden lg:fixed lg:left-0 lg:top-0 lg:h-screen ${widthClass} lg:flex lg:flex-col lg:justify-center lg:bg-card lg:z-50 transition-all duration-300`}
           aria-hidden={effectiveIsCollapsed}
         >
           <div className="w-full px-1 space-y-1">
             {navLinks.map((link) => {
               const isActive = pathname === link.href;
               return (
-                <Link
+                  <Link
                   key={link.href}
                   href={link.href}
-                  className={`block text-lg transition-all duration-200 font-light tracking-widest rounded-sm hover:bg-neutral-900/20 ${
-                    isActive ? 'text-white bg-neutral-900' : 'text-neutral-500 hover:text-white'
+                  className={`block text-lg transition-all duration-200 font-light tracking-widest rounded-sm hover:bg-card/80 ${
+                    isActive ? 'text-primary bg-card/80' : 'text-muted hover:text-primary'
                   }`}
                   aria-label={link.label}
                 >
@@ -160,12 +160,12 @@ export default function Navbar({ isCollapsed, onToggle }: NavbarProps) {
 
       {/* Mobile / Narrow Viewport Nav */}
       {(isNarrow) ? (
-        <nav className="sticky top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-md border-b border-neutral-800">
+        <nav className="sticky top-0 left-0 right-0 z-50 bg-surface/90 backdrop-blur-md border-b border-default">
           <div className="flex justify-end items-center h-16 px-4">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               aria-expanded={isMenuOpen}
-              className="text-white hover:text-neutral-300 transition-colors p-2"
+              className="text-primary hover:text-muted transition-colors p-2"
               aria-label="Toggle menu"
             >
               <svg
@@ -187,7 +187,7 @@ export default function Navbar({ isCollapsed, onToggle }: NavbarProps) {
           </div>
 
           {isMenuOpen && (
-            <div className="w-full bg-black/90 backdrop-blur-md border-b border-neutral-800">
+            <div className="w-full bg-surface/90 backdrop-blur-md border-b border-default">
               <div className="flex flex-col p-4 space-y-2">
                 {navLinks.map((link) => (
                   <Link
@@ -195,7 +195,7 @@ export default function Navbar({ isCollapsed, onToggle }: NavbarProps) {
                     href={link.href}
                     onClick={() => setIsMenuOpen(false)}
                     className={`flex items-center justify-center gap-2 px-4 py-4 text-lg transition-all font-light tracking-widest text-center border border-transparent rounded-sm
-                        ${pathname === link.href ? 'text-white bg-neutral-900' : 'text-neutral-500 hover:text-white hover:bg-neutral-900/50'}
+                        ${pathname === link.href ? 'text-primary bg-card/80' : 'text-muted hover:text-primary hover:bg-card/50'}
                     `}
                   >
                     {link.icon && (
@@ -210,14 +210,14 @@ export default function Navbar({ isCollapsed, onToggle }: NavbarProps) {
         </nav>
       ) : (
         /* Fallback for standard mobile styles if isNarrow isn't active yet */
-        <nav className="lg:hidden sticky top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-md border-b border-neutral-800">
+        <nav className="lg:hidden sticky top-0 left-0 right-0 z-50 bg-surface/90 backdrop-blur-md border-b border-default">
            <div className="flex justify-end items-center h-16 px-4">
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              aria-expanded={isMenuOpen}
-              className="text-white hover:text-neutral-300 transition-colors p-2"
-              aria-label="Toggle menu"
-            >
+              <button
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                aria-expanded={isMenuOpen}
+                className="text-primary hover:text-muted transition-colors p-2"
+                aria-label="Toggle menu"
+              >
               <svg
                 className="w-6 h-6"
                 fill="none"
@@ -237,7 +237,7 @@ export default function Navbar({ isCollapsed, onToggle }: NavbarProps) {
           </div>
 
           {isMenuOpen && (
-            <div className="w-full bg-black/90 backdrop-blur-md border-b border-neutral-800">
+            <div className="w-full bg-surface/90 backdrop-blur-md border-b border-default">
               <div className="flex flex-col p-4 space-y-2">
                   {navLinks.map((link) => (
                     <Link
@@ -245,7 +245,7 @@ export default function Navbar({ isCollapsed, onToggle }: NavbarProps) {
                       href={link.href}
                       onClick={() => setIsMenuOpen(false)}
                       className={`flex items-center justify-center gap-2 px-4 py-4 text-lg transition-all font-light tracking-widest text-center border border-transparent rounded-sm
-                          ${pathname === link.href ? 'text-white bg-neutral-900' : 'text-neutral-500 hover:text-white hover:bg-neutral-900/50'}
+                          ${pathname === link.href ? 'text-primary bg-card/80' : 'text-muted hover:text-primary hover:bg-card/50'}
                       `}
                     >
                       {link.icon && (

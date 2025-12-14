@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { FaUser, FaEnvelope, FaPaperPlane, FaMapMarkerAlt, FaGithub, FaLinkedin, FaShareAlt } from 'react-icons/fa';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -25,27 +26,31 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen py-20 px-4 sm:px-6 lg:px-8 bg-white dark:bg-black">
-      <div className="max-w-4xl mx-auto">
+    <div className="min-h-screen py-20 px-4 sm:px-6 lg:px-8 bg-surface text-primary">
+      <div className="max-w-5xl mx-auto">
 
-        {/* Header */}
-        <div className="text-center mb-16">
-          <h1 className="text-5xl font-bold text-zinc-900 dark:text-white mb-4">Get In Touch</h1>
-          <p className="text-xl text-zinc-600 dark:text-zinc-400">
+        {/* Page Header */}
+        <div className="text-center mb-12">
+          <h1 className="text-5xl font-bold text-primary mb-4">Get In Touch</h1>
+          <p className="text-xl text-muted">
             Have a question or want to work together? I&apos;d love to hear from you.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-12">
-
-          {/* Contact Form */}
-          <div>
-            <h2 className="text-2xl font-bold text-zinc-900 dark:text-white mb-6">Send Me a Message</h2>
-            <form onSubmit={handleSubmit} className="space-y-6">
-
-              {/* Name Area */}
-              <div>
-                <label htmlFor="name" className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2">Name</label>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          
+          {/* LEFT COLUMN: Contact Form */}
+          <div className="lg:col-span-2">
+            <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4 h-full">
+              
+              {/* Name Input Tile */}
+              <div className="group bg-card border border-default rounded-2xl p-6 focus-within:ring-2 focus-within:ring-accent transition-all hover:border-accent/50 flex flex-col">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="p-2 bg-accent-soft rounded-lg text-accent">
+                    <FaUser size={18} />
+                  </div>
+                  <label htmlFor="name" className="font-semibold text-primary">Name</label>
+                </div>
                 <input
                   type="text"
                   id="name"
@@ -53,14 +58,19 @@ export default function ContactPage() {
                   value={formData.name}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg focus:ring-2 focus:ring-white dark:focus:ring-zinc-300 focus:border-transparent outline-none transition-all text-zinc-900 dark:text-white"
+                  className="w-full bg-transparent outline-none text-lg text-primary placeholder-muted/50 mt-auto"
                   placeholder="Your name"
                 />
               </div>
 
-              {/* Email Area */}
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2">Email</label>
+              {/* Email Input Tile */}
+              <div className="group bg-card border border-default rounded-2xl p-6 focus-within:ring-2 focus-within:ring-accent transition-all hover:border-accent/50 flex flex-col">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="p-2 bg-accent-soft rounded-lg text-accent">
+                    <FaEnvelope size={18} />
+                  </div>
+                  <label htmlFor="email" className="font-semibold text-primary">Email</label>
+                </div>
                 <input
                   type="email"
                   id="email"
@@ -68,84 +78,93 @@ export default function ContactPage() {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg focus:ring-2 focus:ring-white dark:focus:ring-zinc-300 focus:border-transparent outline-none transition-all text-zinc-900 dark:text-white"
+                  className="w-full bg-transparent outline-none text-lg text-primary placeholder-muted/50 mt-auto"
                   placeholder="your.email@example.com"
                 />
               </div>
 
-                {/* Message Area */}
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2">Message</label>
+              {/* Message Input Tile (Spans 2 columns) */}
+              <div className="md:col-span-2 group bg-card border border-default rounded-2xl p-6 focus-within:ring-2 focus-within:ring-accent transition-all hover:border-accent/50 flex flex-col min-h-[200px]">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="p-2 bg-accent-soft rounded-lg text-accent">
+                    <FaPaperPlane size={18} />
+                  </div>
+                  <label htmlFor="message" className="font-semibold text-primary">Message</label>
+                </div>
                 <textarea
                   id="message"
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
                   required
-                  rows={6}
-                  className="w-full px-4 py-3 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg focus:ring-2 focus:ring-white dark:focus:ring-zinc-300 focus:border-transparent outline-none transition-all text-zinc-900 dark:text-white resize-none"
+                  className="w-full bg-transparent outline-none text-lg text-primary placeholder-muted/50 resize-none flex-grow"
                   placeholder="Tell me about your project..."
                 />
               </div>
 
-              <button type="submit" className="w-full px-6 py-4 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 rounded-lg font-semibold hover:bg-zinc-800 dark:hover:bg-zinc-100 transition-colors shadow-lg hover:shadow-xl">
-                Send Message
-              </button>
+              {/* Submit Button Tile (Spans 2 columns) */}
+              <div className="md:col-span-2">
+                <button 
+                  type="submit" 
+                  className="w-full bg-white text-black py-4 rounded-2xl font-bold text-lg hover:bg-gray-200 transition-all shadow-lg active:scale-[0.98] flex items-center justify-center gap-2"
+                >
+                  <FaPaperPlane />
+                  Send Message
+                </button>
+              </div>
+
             </form>
           </div>
 
-          {/* Contact Information */}
-          <div>
-            <h2 className="text-2xl font-bold text-zinc-900 dark:text-white mb-6">Contact Information</h2>
-
-            <div className="space-y-6">
-              <div className="p-6 bg-zinc-50 dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800">
-                <h3 className="font-semibold text-zinc-900 dark:text-white mb-2">
-                  📧 Email
-                </h3>
-                <a
-                  href="mailto:your.email@example.com"
-                  className="text-zinc-900 dark:text-zinc-100 hover:underline"
-                >
-                  dhannielbuan@gmail.com
-                </a>
-              </div>
-
-              <div className="p-6 bg-zinc-50 dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800">
-                <h3 className="font-semibold text-zinc-900 dark:text-white mb-2">
-                  📍 Location
-                </h3>
-                <p className="text-zinc-600 dark:text-zinc-400">
-                  Antipolo City, Philippines
-                </p>
-              </div>
-
-              <div className="p-6 bg-zinc-50 dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800">
-                <h3 className="font-semibold text-zinc-900 dark:text-white mb-3">
-                  🔗 Social Links
-                </h3>
-                <div className="space-y-2">
-                  <a
-                    href="https://github.com/alfagamez22"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block text-zinc-900 dark:text-zinc-100 hover:underline"
-                  >
-                    GitHub
-                  </a>
-                  <a
-                    href="https://linkedin.com/in/dhbuan"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block text-zinc-900 dark:text-zinc-100 hover:underline"
-                  >
-                    LinkedIn
-                  </a>
+          {/* RIGHT COLUMN: Contact Info */}
+          <div className="space-y-4 flex flex-col">
+            
+            {/* Email Info Tile */}
+            <div className="bg-card border border-default rounded-2xl p-6 hover:border-accent/50 hover:shadow-[0_0_30px_rgba(88,166,255,0.1)] transition-all flex-1 flex flex-col justify-center group">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="p-2 bg-accent-soft rounded-lg text-accent group-hover:scale-110 transition-transform">
+                  <FaEnvelope size={20} />
                 </div>
+                <h3 className="font-semibold text-primary text-lg">Email</h3>
+              </div>
+              <a href="mailto:dhannielbuan@gmail.com" className="text-muted hover:text-accent transition-colors break-all">
+                dhannielbuan@gmail.com
+              </a>
+            </div>
+
+            {/* Location Info Tile */}
+            <div className="bg-card border border-default rounded-2xl p-6 hover:border-accent/50 hover:shadow-[0_0_30px_rgba(88,166,255,0.1)] transition-all flex-1 flex flex-col justify-center group">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="p-2 bg-accent-soft rounded-lg text-accent group-hover:scale-110 transition-transform">
+                  <FaMapMarkerAlt size={20} />
+                </div>
+                <h3 className="font-semibold text-primary text-lg">Location</h3>
+              </div>
+              <p className="text-muted">
+                Antipolo City, Philippines
+              </p>
+            </div>
+
+            {/* Socials Info Tile */}
+            <div className="bg-card border border-default rounded-2xl p-6 hover:border-accent/50 hover:shadow-[0_0_30px_rgba(88,166,255,0.15)] transition-all flex-1 flex flex-col justify-center group">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="p-2 bg-accent-soft rounded-lg text-accent group-hover:scale-110 transition-transform">
+                  <FaShareAlt size={20} />
+                </div>
+                <h3 className="font-semibold text-primary text-lg">Socials</h3>
+              </div>
+              <div className="flex flex-col gap-2">
+                <a href="https://github.com/alfagamez22" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-muted hover:text-accent transition-colors hover:translate-x-1">
+                  <FaGithub /> GitHub
+                </a>
+                <a href="https://linkedin.com/in/dhbuan" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-muted hover:text-accent transition-colors hover:translate-x-1">
+                  <FaLinkedin /> LinkedIn
+                </a>
               </div>
             </div>
 
           </div>
+
         </div>
       </div>
     </div>

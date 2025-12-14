@@ -1,8 +1,15 @@
 @import "tailwindcss";
 
 :root {
-  --background: #000000;
-  --foreground: #ffffff;
+  /* GitHub Dark theme variables */
+  --background: #0d1117; /* page background */
+  --surface: #0f1720; /* slightly lighter surface for sections */
+  --card: #0b1116; /* card backgrounds */
+  --foreground: #c9d1d9; /* main text */
+  --muted: #8b949e; /* secondary text */
+  --border: #30363d; /* subtle borders */
+  --accent: #58a6ff; /* GitHub blue accent */
+  --accent-muted: rgba(88,166,255,0.12);
 }
 
 @theme inline {
@@ -18,72 +25,34 @@ body {
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
 }
 
-/* Custom cursor across the whole site. 16 16 sets the hotspot to the center-ish of the svg. */
+/* Reusable theme utility classes (GitHub Dark look) */
+.bg-surface { background: var(--surface); }
+.bg-card { background: var(--card); }
+.text-primary { color: var(--foreground); }
+.text-muted { color: var(--muted); }
+.border-default { border-color: var(--border); }
+.accent { color: var(--accent); }
+.text-accent { color: var(--accent); }
+.bg-accent { background-color: var(--accent); }
+.bg-accent-soft { background: var(--accent-muted); }
+.ring-accent { box-shadow: 0 0 0 4px rgba(88,166,255,0.08); }
+
+/* Custom cursor across the whole site. 0 0 sets the hotspot to the top-left (apex) of the svg. */
 html, body, * {
   /* Use main svg cursor, and an inline SVG data fallback; then default to auto */
-  cursor: url('/images/cursor.svg') 16 16, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Cpolygon points='0,0 24,12 0,24' fill='%23ffffff'/%3E%3C/svg%3E") 16 16, auto;
+  cursor: url('/images/cursor.svg') 0 0, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Cpolygon points='0,0 24,12 0,24' fill='%23ffffff'/%3E%3C/svg%3E") 0 0, auto;
 }
 
 /* For interactive elements, keep pointer semantics but still use the custom cursor */
 a, a * , button, input, textarea, select, label, [role="button"] {
   /* Maintain pointer semantics for interactive elements, still using the custom cursor */
-  cursor: url('/images/cursor.svg') 16 16, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Cpolygon points='0,0 24,12 0,24' fill='%23ffffff'/%3E%3C/svg%3E") 16 16, pointer;
+  cursor: url('/images/cursor.svg') 0 0, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Cpolygon points='0,0 24,12 0,24' fill='%23ffffff'/%3E%3C/svg%3E") 0 0, pointer;
 }
 
 /* If any element should hide the custom cursor (e.g., the OS native cursor is desired), apply .native-cursor */
 .native-cursor {
   cursor: auto !important;
 }
-
-/* Custom Scrollbar */
-/* Apply site-wide defaults via html/body and provide a utility class `.custom-scrollbar` for explicit usage */
-html, body, #__next, .custom-scrollbar {
-  /* We'll hide native scrollbars by default and allow the custom
-     scroll component to render its own track. Firefox uses
-     scrollbar-width: none; to fully hide. */
-  scrollbar-width: none; /* Firefox - hides native scrollbar */
-}
-
-/* Webkit-based browsers */
-.custom-scrollbar::-webkit-scrollbar, html::-webkit-scrollbar, body::-webkit-scrollbar, #__next::-webkit-scrollbar {
-  display: none; /* Hide native webkit scrollbar */
-}
-
-.custom-scrollbar::-webkit-scrollbar-track, html::-webkit-scrollbar-track, body::-webkit-scrollbar-track, #__next::-webkit-scrollbar-track {
-  background: #0a0a0a; /* dark track for contrast with black theme */
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb, html::-webkit-scrollbar-thumb, body::-webkit-scrollbar-thumb, #__next::-webkit-scrollbar-thumb {
-  background: linear-gradient(to bottom, #ffffff 0%, #000 60%, #bfbfbf 100%);
-  border-radius: 10px;
-  transition: box-shadow 120ms ease, filter 120ms ease, background 120ms ease;
-}
-
-/* Hover affordance: slightly brighten and add subtle inset glow */
-.custom-scrollbar::-webkit-scrollbar-thumb:hover,
-html::-webkit-scrollbar-thumb:hover,
-body::-webkit-scrollbar-thumb:hover,
-#__next::-webkit-scrollbar-thumb:hover {
-  filter: brightness(1.25);
-  box-shadow: inset 0 0 0 2px rgba(255,255,255,0.06);
-}
-
-/* Accessibility class to ensure large, visible thumb if needed */
-.custom-scrollbar--high-contrast::-webkit-scrollbar-thumb,
-.custom-scrollbar--high-contrast {
-  background: #ffffff;
-  border-radius: 10px;
-}
-
-/* Make hover more obvious for accessibility */
-.custom-scrollbar--high-contrast::-webkit-scrollbar-thumb:hover,
-.custom-scrollbar--high-contrast:hover {
-  background: #ffffff;
-  box-shadow: inset 0 0 0 3px rgba(0,0,0,0.08);
-}
-
-/* Hide default outline on body scrollbars for clean appearance (keeps focus outline on interactive elements) */
-body::-webkit-scrollbar-corner { background: transparent; }
 
 /* Utility class to hide native scrollbars on any element */
 .hide-native-scrollbar {
@@ -153,4 +122,32 @@ body::-webkit-scrollbar-corner { background: transparent; }
   outline: 2px solid rgba(120,120,120,0.18);
   outline-offset: 4px;
 }
+
+/* Welcome wallpaper: subtle layered radial highlights (matches GitHub dark mood) */
+.welcome-wallpaper {
+  background: var(--surface);
+  background-image: radial-gradient(circle at 10% 20%, rgba(88,166,255,0.04), transparent 18%),
+                    radial-gradient(circle at 85% 80%, rgba(255,255,255,0.02), transparent 16%);
+  background-blend-mode: overlay, overlay;
+}
+
+.welcome-title {
+  text-shadow: 0 6px 30px rgba(0,0,0,0.55), 0 1px 0 rgba(255,255,255,0.02);
+}
+
+/* Bento card used for tiled form layout */
+.bento-card {
+  padding: 1rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+}
+.bento-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(2,6,23,0.08);
+  border-color: rgba(88,166,255,0.06);
+}
+.bento-label { display:block; margin-bottom:0.5rem; color: var(--muted); font-weight:600; }
+.bento-helper { color: var(--muted); font-size:0.875rem; margin-top:0.5rem; }
 
