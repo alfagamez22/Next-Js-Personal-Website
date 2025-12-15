@@ -33,6 +33,9 @@ interface Message {
 
 export default function AIChatBox() {
   const [isOpen, setIsOpen] = useState(false);
+  // Represents whether the Gemini AI is online (true) or offline (false).
+  // Independent of `isOpen` (which controls the chat window visibility).
+  const [geminiOnline, setGeminiOnline] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [messages, setMessages] = useState<Message[]>([
@@ -98,8 +101,10 @@ export default function AIChatBox() {
         contentType = 'techStack';
       } else if (text.toLowerCase().includes('project')) {
          responseContent = "I've worked on several key projects, including an E-commerce dashboard using Next.js and a Real-time Chat App using Socket.io. Would you like to see a demo link?";
+      } else if (text.toLowerCase().includes('experience') || text.toLowerCase().includes('work')) {
+         responseContent = "I have experience as a lead developer and project manager in developing a Full-stack web application for our Thesis which was deployed in AWS and as for the custom trained AI model it was deployed in Runpod.";
       } else {
-         responseContent = "That's a great question! This is a demo interaction. In a real app, I'd fetch specific data from your portfolio to answer that.";
+         responseContent = "Right now i'm a demo AI assistant. as Im still under development, I can provide basic info about my projects, skills, and experience.";
       }
 
       const aiMsg: Message = {
@@ -143,14 +148,19 @@ export default function AIChatBox() {
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-slate-900 rounded-full"></div>
+                <button
+                  onClick={() => setGeminiOnline(!geminiOnline)}
+                  title={geminiOnline ? 'Gemini online — click to set offline' : 'Gemini offline — click to set online'}
+                  aria-pressed={!geminiOnline}
+                  className="absolute bottom-0 right-0 w-3 h-3 flex items-center justify-center focus:outline-none"
+                >
+                  <span className={`animate-ping absolute inline-flex h-full w-full rounded-full ${geminiOnline ? 'bg-green-400' : 'bg-red-400'} opacity-75`}></span>
+                  <span className={`relative inline-flex rounded-full h-3 w-3 ${geminiOnline ? 'bg-green-500 border-2 border-slate-900' : 'bg-red-500 border-2 border-slate-900'}`}></span>
+                </button>
               </div>
               <div>
                 <h3 className="font-semibold text-white text-sm">Portfolio Assistant</h3>
-                <p className="text-xs text-blue-300 font-medium flex items-center gap-1">
-                   <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse"></span>
-                   Powered by Gemini
-                </p>
+                 <p className="text-xs font-medium text-blue-300">Powered by Gemini</p>
               </div>
             </div>
             
@@ -242,16 +252,15 @@ export default function AIChatBox() {
             {messages.length < 3 && !isTyping && (
                <div className="flex gap-2 overflow-x-auto pb-3 mb-1 no-scrollbar mask-gradient-right">
                  {[
-                    { label: 'Tech Stack', icon: <SiNodedotjs className="w-full h-full" /> },
-                    { label: 'Projects', icon: <SiReact className="w-full h-full" /> },
-                    { label: 'Experience', icon: <SiGithub className="w-full h-full" /> }
+                    { label: 'Tech Stack',},
+                    { label: 'Projects',},
+                    { label: 'Experience',  }
                   ].map((chip) => (
                    <button 
                     key={chip.label}
                     onClick={() => handleSend(null, `Tell me about your ${chip.label}`)}
                     className="flex items-center gap-1.5 whitespace-nowrap px-3 py-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-blue-500/50 rounded-full text-xs text-slate-300 transition-all active:scale-95"
                    >
-                     <div className="w-3 h-3 opacity-70">{chip.icon}</div>
                      {chip.label}
                    </button>
                  ))}
@@ -302,12 +311,7 @@ export default function AIChatBox() {
             <MessageSquare className="w-6 h-6" />
           )}
           
-          {!isOpen && (
-            <span className="absolute top-0 right-0 flex h-3 w-3">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
-            </span>
-          )}
+          
         </button>
       </div>
   );

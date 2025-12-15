@@ -16,6 +16,7 @@ export const blogPosts: BlogPost[] = [
     paragraph: 'Next.js has revolutionized the way we build React applications. In this post, we\'ll explore the latest features of Next.js 15, including the new App Router, Server Components, and improved performance optimizations. Whether you\'re a beginner or an experienced developer, this guide will help you understand the core concepts and best practices for building scalable web applications.',
     paragraphImage: '/images/nextjs-tutorial.png', // Optional - Access: public/images/nextjs-tutorial.png
   },
+
   {
     slug: 'mastering-typescript',
     title: 'Mastering TypeScript in 2024',
@@ -26,6 +27,7 @@ export const blogPosts: BlogPost[] = [
     paragraph: 'TypeScript has become an essential tool in modern web development. This article dives deep into advanced TypeScript patterns, including generics, utility types, and type inference. We\'ll explore real-world examples and best practices that will help you write more type-safe and maintainable code. By the end of this guide, you\'ll have a solid understanding of TypeScript\'s powerful type system.',
     // paragraphImage not included - demonstrating optional field
   },
+
   {
     slug: 'ai-integration-in-web-apps',
     title: 'Integrating AI into Your Web Applications',
@@ -36,6 +38,8 @@ export const blogPosts: BlogPost[] = [
     paragraph: 'Artificial Intelligence is no longer just for tech giants. In this comprehensive guide, we\'ll explore how to integrate AI capabilities into your web applications using modern APIs and frameworks. From chatbots to image recognition, we\'ll cover practical implementations that you can start using today. Learn how to leverage AI to create more intelligent and user-friendly applications.',
     paragraphImage: '/images/ai-integration.jpg', // Optional - Access: public/images/ai-integration.jpg
   },
+
+  
 ];
 
 // ============================================
