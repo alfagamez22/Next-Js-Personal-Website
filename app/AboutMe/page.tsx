@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { PiMicrosoftExcelLogoFill, } from 'react-icons/pi';
-import { SiReact, SiNextdotjs, SiTypescript, SiNodedotjs, SiPhp, SiPython, SiGit, SiGithub, SiPostgresql, SiMysql, SiCplusplus, } from 'react-icons/si';
+import { SiReact, SiNextdotjs, SiTypescript, SiNodedotjs, SiPhp, SiPython, SiGit, SiGithub, SiPostgresql, SiMysql, SiCplusplus, SiDocker, } from 'react-icons/si';
 import { CometCard } from "@/Components/ui/comet-card";
 
 const techLogos = [
@@ -14,6 +14,7 @@ const techLogos = [
   { node: <SiReact className="text-cyan-400" />, title: "React", href: "https://react.dev" },
   { node: <SiPostgresql className="text-cyan-500" />, title: "PostgreSQL", href: "https://www.postgresql.org" },
   { node: <SiMysql className="text-cyan-300" />, title: "MySQL", href: "https://www.mysql.com" },
+  { node: <SiDocker className="text-blue-800" />, title: "Docker", href: "https://www.docker.com" },
   { node: <SiCplusplus className="text-blue-800" />, title: "C++", href: "https://isocpp.org" },
   { node: <PiMicrosoftExcelLogoFill className="text-green-300" />, title: "Microsoft Excel"},
 ];

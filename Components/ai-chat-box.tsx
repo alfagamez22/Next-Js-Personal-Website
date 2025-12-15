@@ -1,124 +1,222 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import { MessageSquare, X, Send, Sparkles, User, RefreshCw } from 'lucide-react';
+import { PiMicrosoftExcelLogoFill } from 'react-icons/pi';
+import { SiReact, SiNextdotjs, SiTypescript, SiNodedotjs, SiPhp, SiPython, SiGit, SiGithub, SiPostgresql, SiMysql, SiCplusplus, SiDocker } from 'react-icons/si';
+
+// Data Structure for Tech Stack
+const techStackData = [
+  { id: 'node', icon: <SiNodedotjs className="w-full h-full text-green-600" />, title: "Node.js", bg: "bg-green-500/10", border: "border-green-500/20" },
+  { id: 'ts', icon: <SiTypescript className="w-full h-full text-blue-600" />, title: "TypeScript", bg: "bg-blue-500/10", border: "border-blue-500/20" },
+  { id: 'next', icon: <SiNextdotjs className="w-full h-full text-white" />, title: "Next.js", bg: "bg-slate-700/50", border: "border-slate-600" },
+  { id: 'php', icon: <SiPhp className="w-full h-full text-indigo-600" />, title: "PHP", bg: "bg-indigo-500/10", border: "border-indigo-500/20" },
+  { id: 'python', icon: <SiPython className="w-full h-full text-yellow-500" />, title: "Python", bg: "bg-yellow-500/10", border: "border-yellow-500/20" },
+  { id: 'git', icon: <SiGit className="w-full h-full text-orange-600" />, title: "Git", bg: "bg-orange-500/10", border: "border-orange-500/20" },
+  { id: 'github', icon: <SiGithub className="w-full h-full text-white" />, title: "GitHub", bg: "bg-slate-700/50", border: "border-slate-600" },
+  { id: 'react', icon: <SiReact className="w-full h-full text-cyan-400" />, title: "React", bg: "bg-cyan-500/10", border: "border-cyan-500/20" },
+  { id: 'postgres', icon: <SiPostgresql className="w-full h-full text-cyan-500" />, title: "PostgreSQL", bg: "bg-cyan-600/10", border: "border-cyan-600/20" },
+  { id: 'mysql', icon: <SiMysql className="w-full h-full text-cyan-300" />, title: "MySQL", bg: "bg-blue-400/10", border: "border-blue-400/20" },
+  { id: 'docker', icon: <SiDocker className="w-full h-full text-blue-800" />, title: "Docker", bg: "bg-blue-600/10", border: "border-blue-600/20" },
+  { id: 'cpp', icon: <SiCplusplus className="w-full h-full text-blue-800" />, title: "C++", bg: "bg-blue-800/10", border: "border-blue-800/20" },
+  { id: 'excel', icon: <PiMicrosoftExcelLogoFill className="w-full h-full text-green-300" />, title: "Excel", bg: "bg-green-500/10", border: "border-green-500/20" },
+];
 
 interface Message {
-  role: 'user' | 'assistant';
-  content: string;
+  id: number;
+  type: 'ai' | 'user';
+  text: string;
+  timestamp: string;
+  contentType?: 'techStack' | string;
 }
 
 export default function AIChatBox() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
+  const [inputValue, setInputValue] = useState('');
   const [messages, setMessages] = useState<Message[]>([
     {
-      role: 'assistant',
-      content: 'Hi! I can help you learn more about this portfolio. Ask me anything about the projects, skills, or background!',
-    },
+      id: 1,
+      type: 'ai',
+      text: "Hi there! 👋 I'm your Portfolio Assistant. I can tell you about my projects, skills, or experience. What would you like to know?",
+      timestamp: ''
+    }
   ]);
-  const [input, setInput] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setMessages(prev => {
+        if (prev[0].timestamp === '') {
+          const newMessages = [...prev];
+          newMessages[0] = {
+            ...newMessages[0],
+            timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+          };
+          return newMessages;
+        }
+        return prev;
+      });
+    }, 0);
+    return () => clearTimeout(timer);
+  }, []);
+
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages]);
+  }, [messages, isTyping, isOpen]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!input.trim() || isLoading) return;
+  const handleSend = (e: React.FormEvent | null, overrideText: string | null = null) => {
+    if (e) e.preventDefault();
+    const text = overrideText || inputValue;
+    if (!text.trim()) return;
 
-    const userMessage: Message = { role: 'user', content: input };
-    setMessages((prev) => [...prev, userMessage]);
-    setInput('');
-    setIsLoading(true);
+    // Add User Message
+    const userMsg: Message = {
+      id: Date.now(),
+      type: 'user',
+      text: text,
+      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    };
+    
+    setMessages(prev => [...prev, userMsg]);
+    setInputValue('');
+    setIsTyping(true);
 
-    try {
-      // Note: This is a client-side implementation
-      // For production, create an API route to handle the OpenAI call securely
-      const response = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: [...messages, userMessage] }),
-      });
+    // AI Response Logic
+    setTimeout(() => {
+      let responseContent;
+      let contentType = 'text'; // 'text' or 'techStack'
 
-      if (!response.ok) throw new Error('Failed to get response');
+      if (text.toLowerCase().includes('tech') || text.toLowerCase().includes('stack') || text.toLowerCase().includes('skills')) {
+        responseContent = "Here are the technologies I work with. I specialize in the Backend development and have experienced making Python projects and SQL database management as well.";
+        contentType = 'techStack';
+      } else if (text.toLowerCase().includes('project')) {
+         responseContent = "I've worked on several key projects, including an E-commerce dashboard using Next.js and a Real-time Chat App using Socket.io. Would you like to see a demo link?";
+      } else {
+         responseContent = "That's a great question! This is a demo interaction. In a real app, I'd fetch specific data from your portfolio to answer that.";
+      }
 
-      const data = await response.json();
-      const assistantMessage: Message = {
-        role: 'assistant',
-        content: data.message,
+      const aiMsg: Message = {
+        id: Date.now() + 1,
+        type: 'ai',
+        text: responseContent,
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        contentType: contentType
       };
-
-      setMessages((prev) => [...prev, assistantMessage]);
-    } catch (error) {
-      console.error('Error:', error);
-      const errorMessage: Message = {
-        role: 'assistant',
-        content: 'Sorry, I encountered an error. Please try again later.',
-      };
-      setMessages((prev) => [...prev, errorMessage]);
-    } finally {
-      setIsLoading(false);
-    }
+      setMessages(prev => [...prev, aiMsg]);
+      setIsTyping(false);
+    }, 1200);
   };
 
   return (
-    <>
-      {/* Chat Button */}
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-accent text-white rounded-full shadow-lg hover:opacity-95 transition-all hover:scale-110 flex items-center justify-center border border-default"
-        aria-label="Toggle chat"
-      >
-        {isOpen ? (
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        ) : (
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-          </svg>
-        )}
-      </button>
-
-      {/* Chat Window */}
-      {isOpen && (
-        <div className="fixed bottom-24 right-6 z-50 w-96 h-[500px] bg-surface rounded-xl shadow-2xl border border-default flex flex-col">
+    <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end space-y-4 font-sans">
+        
+        {/* Chat Window */}
+        <div 
+          onWheel={(e) => e.stopPropagation()}
+          onTouchStart={(e) => e.stopPropagation()}
+          onTouchMove={(e) => e.stopPropagation()}
+          className={`
+            transition-all duration-300 ease-in-out transform origin-bottom-right
+            ${isOpen ? 'scale-100 opacity-100 translate-y-0' : 'scale-90 opacity-0 translate-y-8 pointer-events-none'}
+            w-[380px] max-w-[calc(100vw-3rem)] h-[600px] max-h-[calc(100vh-10rem)]
+            bg-slate-900/90 backdrop-blur-xl border border-slate-700/50 
+            rounded-2xl shadow-2xl flex flex-col overflow-hidden ring-1 ring-slate-800
+          `}
+        >
           {/* Header */}
-          <div className="p-4 border-b border-default bg-card text-primary rounded-t-xl">
-            <h3 className="font-semibold text-lg">Portfolio Assistant</h3>
-            <p className="text-sm text-muted">Powered by AI</p>
+          <div className="p-4 bg-slate-800/50 border-b border-slate-700/50 flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <div className="relative">
+                <div className="w-10 h-10 rounded-full bg-linear-to-tr from-blue-500 to-purple-500 flex items-center justify-center shadow-lg ring-2 ring-slate-800">
+                  <Sparkles className="w-5 h-5 text-white" />
+                </div>
+                <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-slate-900 rounded-full"></div>
+              </div>
+              <div>
+                <h3 className="font-semibold text-white text-sm">Portfolio Assistant</h3>
+                <p className="text-xs text-blue-300 font-medium flex items-center gap-1">
+                   <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse"></span>
+                   Powered by AI
+                </p>
+              </div>
+            </div>
+            
+            <div className="flex items-center space-x-1">
+              <button 
+                onClick={() => setMessages([{ id: 1, type: 'ai', text: "Chat cleared! How can I help?", timestamp: new Date().toLocaleTimeString() }])}
+                className="p-2 hover:bg-slate-700/50 rounded-full text-slate-400 hover:text-white transition-colors"
+                title="Reset Chat"
+              >
+                <RefreshCw className="w-4 h-4" />
+              </button>
+            </div>
           </div>
 
-          {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar">
-            {messages.map((message, index) => (
-              <div
-                key={index}
-                className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
+          {/* Messages Area */}
+          <div className="flex-1 overflow-y-auto p-4 space-y-6 scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent">
+            {messages.map((msg) => (
+              <div 
+                key={msg.id} 
+                className={`flex w-full ${msg.type === 'user' ? 'justify-end' : 'justify-start'}`}
               >
-                <div
-                  className={`max-w-[80%] px-4 py-2 rounded-lg ${
-                    message.role === 'user'
-                      ? 'bg-accent text-white'
-                      : 'bg-card text-primary border border-default'
-                  }`}
-                >
-                  {message.content}
+                <div className={`flex max-w-[90%] ${msg.type === 'user' ? 'flex-row-reverse' : 'flex-row'} items-end gap-2`}>
+                  {/* Avatar */}
+                  <div className={`w-6 h-6 rounded-full shrink-0 flex items-center justify-center ${msg.type === 'user' ? 'bg-slate-700' : 'bg-linear-to-tr from-blue-500 to-purple-500'}`}>
+                     {msg.type === 'user' ? <User className="w-3 h-3 text-slate-300" /> : <Sparkles className="w-3 h-3 text-white" />}
+                  </div>
+
+                  {/* Bubble */}
+                  <div className="flex flex-col space-y-2">
+                    <div className={`
+                      group relative px-4 py-3 rounded-2xl text-sm leading-relaxed shadow-sm
+                      ${msg.type === 'user' 
+                        ? 'bg-blue-600 text-white rounded-br-none' 
+                        : 'bg-slate-800 border border-slate-700 text-slate-200 rounded-bl-none'}
+                    `}>
+                      {msg.text}
+                      <span className={`
+                        text-[10px] absolute bottom-0 mb-[-1.2rem] whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-slate-500
+                        ${msg.type === 'user' ? 'right-0' : 'left-0'}
+                      `}>
+                        {msg.timestamp}
+                      </span>
+                    </div>
+
+                    {/* Rich Content: Tech Stack Grid */}
+                    {msg.contentType === 'techStack' && (
+                      <div className="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-3 grid grid-cols-4 gap-2 animate-in fade-in zoom-in duration-300">
+                        {techStackData.map((tech) => (
+                          <div key={tech.id} className={`flex flex-col items-center justify-center p-2 rounded-xl border ${tech.bg} ${tech.border} hover:scale-105 transition-transform cursor-default group/icon`}>
+                             <div className="w-6 h-6 mb-1">
+                               {tech.icon}
+                             </div>
+                             <span className="text-[10px] text-slate-300 font-medium truncate w-full text-center opacity-70 group-hover/icon:opacity-100">{tech.title}</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             ))}
-            {isLoading && (
-              <div className="flex justify-start">
-                <div className="bg-card px-4 py-2 rounded-lg border border-default">
-                  <div className="flex space-x-2">
-                    <div className="w-2 h-2 bg-muted rounded-full animate-bounce" />
-                    <div className="w-2 h-2 bg-muted rounded-full animate-bounce" style={{ animationDelay: '0.1s' }} />
-                    <div className="w-2 h-2 bg-muted rounded-full animate-bounce" style={{ animationDelay: '0.2s' }} />
+
+            {/* Typing Indicator */}
+            {isTyping && (
+              <div className="flex justify-start w-full">
+                <div className="flex items-end gap-2">
+                   <div className="w-6 h-6 rounded-full bg-linear-to-tr from-blue-500 to-purple-500 flex items-center justify-center">
+                     <Sparkles className="w-3 h-3 text-white" />
+                  </div>
+                  <div className="bg-slate-800 border border-slate-700 px-4 py-3 rounded-2xl rounded-bl-none flex space-x-1 items-center h-10">
+                    <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+                    <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+                    <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce"></div>
                   </div>
                 </div>
               </div>
@@ -126,30 +224,80 @@ export default function AIChatBox() {
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Input */}
-          <form onSubmit={handleSubmit} className="p-4 border-t border-default">
-              <div className="flex gap-2">
-              <input
-                type="text"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder="Ask me anything..."
-                className="flex-1 px-4 py-2 bg-card border border-default rounded-lg focus:ring-1 focus:ring-accent focus:border-transparent outline-none text-primary placeholder-muted"
-                disabled={isLoading}
+          {/* Input Area */}
+          <div className="p-4 bg-slate-800/30 border-t border-slate-700/50 backdrop-blur-sm">
+            
+            {/* Quick Actions / Suggestions */}
+            {messages.length < 3 && !isTyping && (
+               <div className="flex gap-2 overflow-x-auto pb-3 mb-1 no-scrollbar mask-gradient-right">
+                 {[
+                    { label: 'Tech Stack', icon: <SiNodedotjs className="w-full h-full" /> },
+                    { label: 'Projects', icon: <SiReact className="w-full h-full" /> },
+                    { label: 'Experience', icon: <SiGithub className="w-full h-full" /> }
+                  ].map((chip) => (
+                   <button 
+                    key={chip.label}
+                    onClick={() => handleSend(null, `Tell me about your ${chip.label}`)}
+                    className="flex items-center gap-1.5 whitespace-nowrap px-3 py-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-blue-500/50 rounded-full text-xs text-slate-300 transition-all active:scale-95"
+                   >
+                     <div className="w-3 h-3 opacity-70">{chip.icon}</div>
+                     {chip.label}
+                   </button>
+                 ))}
+               </div>
+            )}
+
+            <form onSubmit={(e) => handleSend(e)} className="relative flex items-center">
+              <input 
+                type="text" 
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                placeholder="Ask anything..."
+                className="w-full bg-slate-950/50 border border-slate-700 text-slate-200 text-sm rounded-xl pl-4 pr-12 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 placeholder-slate-500 transition-all shadow-inner"
               />
-              <button
-                type="submit"
-                disabled={isLoading || !input.trim()}
-                className="px-4 py-2 bg-accent text-white rounded-lg hover:opacity-95 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-                </svg>
-              </button>
+              
+              <div className="absolute right-2 flex items-center space-x-1">
+                {inputValue && (
+                  <button 
+                    type="submit"
+                    title="Send Message"
+                    className="p-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded-lg shadow-lg transition-all duration-200 transform active:scale-95 flex items-center justify-center"
+                  >
+                    <Send className="w-4 h-4" />
+                  </button>
+                )}
+              </div>
+            </form>
+            <div className="text-center mt-2 flex items-center justify-center gap-1">
+               <span className="text-[10px] text-slate-500">AI can make mistakes.</span>
             </div>
-          </form>
+          </div>
         </div>
-      )}
-    </>
+
+        {/* Toggle Button (FAB) */}
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          aria-label="Toggle chat"
+          className={`
+            relative group flex items-center justify-center w-14 h-14 rounded-full shadow-2xl 
+            transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-blue-500/30
+            ${isOpen ? 'bg-slate-800 rotate-90 text-slate-200' : 'bg-blue-600 hover:bg-blue-500 text-white rotate-0'}
+          `}
+        >
+          <div className="absolute inset-0 rounded-full border border-white/10"></div>
+          {isOpen ? (
+            <X className="w-6 h-6" />
+          ) : (
+            <MessageSquare className="w-6 h-6" />
+          )}
+          
+          {!isOpen && (
+            <span className="absolute top-0 right-0 flex h-3 w-3">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+            </span>
+          )}
+        </button>
+      </div>
   );
 }

@@ -25,7 +25,7 @@ export default function Navbar({ isCollapsed, onToggle }: NavbarProps) {
   const navLinks = [
     { href: '/Home', label: 'Home', icon: '/images/home.svg' },
     { href: '/AboutMe', label: 'About', icon: '/images/aboutme.svg' },
-    { href: '/Skills', label: 'Skills', icon: '/images/skills.svg' },
+    // { href: '/Skills', label: 'Skills', icon: '/images/skills.svg' },
     { href: '/Projects', label: 'Projects', icon: '/images/projects.svg' },
     { href: '/BlogPosts', label: 'Blog', icon: '/images/blog.svg' },
     { href: '/Contact', label: 'Contact', icon: '/images/contact.svg' },

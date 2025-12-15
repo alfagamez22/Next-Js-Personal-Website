@@ -5,7 +5,8 @@ import { usePathname, useRouter } from 'next/navigation';
 import { ChevronUp, ChevronDown } from 'lucide-react';
 
 // Ordered page routes (must match your app pages)
-const ROUTES = ['/Home', '/AboutMe', '/Skills', '/Projects', '/BlogPosts', '/Contact'];
+// const ROUTES = ['/Home', '/AboutMe', '/Skills', '/Projects', '/BlogPosts', '/Contact'];
+const ROUTES = ['/Home', '/AboutMe', '/Projects', '/BlogPosts', '/Contact']; //remove skills and technologies for now
 
 interface Props {
   sensitivity?: number; // number of scroll attempts required
