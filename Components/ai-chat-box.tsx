@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
-import { MessageSquare, X, Send, Sparkles, User, RefreshCw } from 'lucide-react';
+import Image from 'next/image';
+import { MessageSquare, X, Send, User, RefreshCw } from 'lucide-react';
 import { PiMicrosoftExcelLogoFill } from 'react-icons/pi';
 import { SiReact, SiNextdotjs, SiTypescript, SiNodedotjs, SiPhp, SiPython, SiGit, SiGithub, SiPostgresql, SiMysql, SiCplusplus, SiDocker } from 'react-icons/si';
 
@@ -133,8 +134,14 @@ export default function AIChatBox() {
           <div className="p-4 bg-slate-800/50 border-b border-slate-700/50 flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <div className="relative">
-                <div className="w-10 h-10 rounded-full bg-linear-to-tr from-blue-500 to-purple-500 flex items-center justify-center shadow-lg ring-2 ring-slate-800">
-                  <Sparkles className="w-5 h-5 text-white" />
+                <div className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center shadow-lg ring-2 ring-slate-800 overflow-hidden">
+                  <Image 
+                    src="/images/ai-logo.svg" 
+                    alt="AI Assistant" 
+                    width={40} 
+                    height={40} 
+                    className="w-full h-full object-cover"
+                  />
                 </div>
                 <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-slate-900 rounded-full"></div>
               </div>
@@ -142,7 +149,7 @@ export default function AIChatBox() {
                 <h3 className="font-semibold text-white text-sm">Portfolio Assistant</h3>
                 <p className="text-xs text-blue-300 font-medium flex items-center gap-1">
                    <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse"></span>
-                   Powered by AI
+                   Powered by Gemini
                 </p>
               </div>
             </div>
@@ -167,8 +174,12 @@ export default function AIChatBox() {
               >
                 <div className={`flex max-w-[90%] ${msg.type === 'user' ? 'flex-row-reverse' : 'flex-row'} items-end gap-2`}>
                   {/* Avatar */}
-                  <div className={`w-6 h-6 rounded-full shrink-0 flex items-center justify-center ${msg.type === 'user' ? 'bg-slate-700' : 'bg-linear-to-tr from-blue-500 to-purple-500'}`}>
-                     {msg.type === 'user' ? <User className="w-3 h-3 text-slate-300" /> : <Sparkles className="w-3 h-3 text-white" />}
+                  <div className={`w-6 h-6 rounded-full shrink-0 flex items-center justify-center ${msg.type === 'user' ? 'bg-slate-700' : 'bg-transparent overflow-hidden'}`}>
+                     {msg.type === 'user' ? (
+                       <User className="w-3 h-3 text-slate-300" />
+                     ) : (
+                       <Image src="/images/ai-logo.svg" alt="AI" width={24} height={24} className="w-full h-full object-cover" />
+                     )}
                   </div>
 
                   {/* Bubble */}
@@ -210,8 +221,8 @@ export default function AIChatBox() {
             {isTyping && (
               <div className="flex justify-start w-full">
                 <div className="flex items-end gap-2">
-                   <div className="w-6 h-6 rounded-full bg-linear-to-tr from-blue-500 to-purple-500 flex items-center justify-center">
-                     <Sparkles className="w-3 h-3 text-white" />
+                   <div className="w-6 h-6 rounded-full flex items-center justify-center overflow-hidden">
+                     <Image src="/images/ai-logo.svg" alt="AI" width={24} height={24} className="w-full h-full object-cover" />
                   </div>
                   <div className="bg-slate-800 border border-slate-700 px-4 py-3 rounded-2xl rounded-bl-none flex space-x-1 items-center h-10">
                     <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
