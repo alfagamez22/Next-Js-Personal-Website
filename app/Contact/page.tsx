@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { FaUser, FaEnvelope, FaPaperPlane, FaMapMarkerAlt, FaGithub, FaLinkedin, FaShareAlt } from 'react-icons/fa';
+import { LazySection } from '@/Components/lazy-section';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -30,14 +31,14 @@ export default function ContactPage() {
       <div className="max-w-5xl mx-auto">
 
         {/* Page Header */}
-        <div className="text-center mb-12">
+        <LazySection className="text-center mb-12">
           <h1 className="text-5xl font-bold text-primary mb-4">Get In Touch</h1>
           <p className="text-xl text-muted">
             Have a question or want to work together? I&apos;d love to hear from you.
           </p>
-        </div>
+        </LazySection>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <LazySection className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           
           {/* LEFT COLUMN: Contact Form */}
           <div className="lg:col-span-2">
@@ -165,7 +166,7 @@ export default function ContactPage() {
 
           </div>
 
-        </div>
+        </LazySection>
       </div>
     </div>
   );

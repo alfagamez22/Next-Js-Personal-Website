@@ -5,6 +5,7 @@ import { ArrowLeft, ArrowRight, Pause, Play, ExternalLink, Github } from 'lucide
 import { projects as projectsData } from '@/lib/slugs/projects';
 import Image from 'next/image';
 import Link from 'next/link';
+import { LazySection } from '@/Components/lazy-section';
 
 export default function ProjectsPage() {
   // Deterministic images for the projects to ensure they show up even if local files are missing
@@ -79,7 +80,7 @@ export default function ProjectsPage() {
   return (
     <div className="min-h-screen bg-surface text-primary flex flex-col items-center justify-center p-4 md:p-8 font-sans">
       
-      <div className="w-full max-w-6xl mb-8 flex flex-col md:flex-row justify-between items-end gap-4">
+      <LazySection className="w-full max-w-6xl mb-8 flex flex-col md:flex-row justify-between items-end gap-4">
         <div className="w-full md:w-auto">
            <h2 className="text-4xl font-bold mb-2 text-primary">My Projects</h2>
            <p className="text-muted">Recent work and experiments.</p>
@@ -125,10 +126,10 @@ export default function ProjectsPage() {
           )}
 
         </div>
-      </div>
+      </LazySection>
 
       {/* CAROUSEL TRACK */}
-      <div className="w-full max-w-6xl overflow-hidden relative min-h-[500px] rounded-3xl shadow-2xl">
+      <LazySection className="w-full max-w-6xl overflow-hidden relative min-h-[500px] rounded-3xl shadow-2xl">
         <div 
           className="flex transition-transform duration-700 ease-in-out h-[500px]"
           style={{ transform: `translateX(-${activeIndex * 100}%)` }}
@@ -188,10 +189,10 @@ export default function ProjectsPage() {
             </div>
           ))}
         </div>
-      </div>
+      </LazySection>
 
       {/* Progress Indicators */}
-      <div className="flex justify-center gap-3 mt-8">
+      <LazySection className="flex justify-center gap-3 mt-8">
         {projects.map((_, idx) => (
           <button
             key={idx}
@@ -202,7 +203,7 @@ export default function ProjectsPage() {
             aria-label={`Go to slide ${idx + 1}`}
           />
         ))}
-      </div>
+      </LazySection>
 
     </div>
   );

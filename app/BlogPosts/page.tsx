@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { getAllBlogPosts } from '@/lib/slugs/blog_posts';
+import { LazyServerSection } from '@/Components/lazy-server-section';
 
 export default function BlogPostsPage() {
   const blogPosts = getAllBlogPosts();
@@ -7,16 +8,16 @@ export default function BlogPostsPage() {
   return (
     <div className="min-h-screen py-20 px-4 sm:px-6 lg:px-8 bg-surface text-primary">
       <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-16">
+        <LazyServerSection className="text-center mb-16">
           <h1 className="text-5xl font-bold text-primary mb-4">
             Blog
           </h1>
           <p className="text-xl text-muted">
             Thoughtful articles about engineering, AI, and building products
           </p>
-        </div>
+        </LazyServerSection>
 
-        <div className="space-y-8">
+        <LazyServerSection className="space-y-8">
           {blogPosts.map((post) => (
             <Link
               key={post.slug}
@@ -58,7 +59,7 @@ export default function BlogPostsPage() {
               </div>
             </Link>
           ))}
-        </div>
+        </LazyServerSection>
       </div>
     </div>
   );

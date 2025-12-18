@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { PiMicrosoftExcelLogoFill, } from 'react-icons/pi';
 import { SiReact, SiNextdotjs, SiTypescript, SiNodedotjs, SiPhp, SiPython, SiGit, SiGithub, SiPostgresql, SiMysql, SiCplusplus, SiDocker, } from 'react-icons/si';
 import { CometCard } from "@/Components/ui/comet-card";
+import { LazySection } from "@/Components/lazy-section";
 
 const techLogos = [
   { node: <SiNodedotjs className="text-green-600" />, title: "Node.js", href: "https://nodejs.org" },
@@ -25,7 +26,7 @@ export default function AboutMePage() {
     <div className="min-h-screen py-20 px-4 sm:px-6 lg:px-8 bg-surface text-primary">
       <div className="max-w-4xl mx-auto">
         {/* Profile Section */}
-        <div className="text-center mb-16 flex flex-col items-center">
+        <LazySection className="text-center mb-16 flex flex-col items-center">
           <CometCard>
             <button
               type="button"
@@ -63,10 +64,10 @@ export default function AboutMePage() {
           <p className="text-xl text-muted">
             Backend Developer | AI Engineer | Data analyst
           </p>
-        </div>
+        </LazySection>
 
         {/* Bio Section */}
-        <div className="prose prose-lg dark:prose-invert max-w-none mb-16">
+        <LazySection className="prose prose-lg dark:prose-invert max-w-none mb-16">
           <p className="text-lg text-muted leading-relaxed mb-4">
             I&apos;m a software engineer specializing in backend development, with hands-on experience building scalable, efficient, and secure systems. My technical expertise spans across modern frameworks and languages, including Node.js, Next.js, TypeScript, PHP, and Python, enabling me to design and implement robust server-side applications.
           </p>
@@ -82,10 +83,10 @@ export default function AboutMePage() {
           <p className="text-lg text-muted leading-relaxed">
             Driven by curiosity and precision, I thrive in environments that challenge me to solve complex problems, optimize workflows, and contribute to systems that make a meaningful impact.
           </p>
-        </div>
+        </LazySection>
 
         {/* Skills Section */}
-        <div className="mb-16">
+        <LazySection className="mb-16">
           <h2 className="text-3xl font-bold text-primary mb-8">
             Technical Skills
           </h2>
@@ -127,10 +128,10 @@ export default function AboutMePage() {
               </div>
             </div>
           </div>
-        </div>
+        </LazySection>
 
         {/* Experience Section */}
-        <div className="mb-16">
+        <LazySection className="mb-16">
           <h2 className="text-3xl font-bold text-primary mb-8">
             Hobbies
           </h2>
@@ -183,10 +184,10 @@ export default function AboutMePage() {
               loading="lazy"
             />
           </div>
-        </div>
+        </LazySection>
 
         {/* CTA Section */}
-        <div className="text-center bg-card rounded-xl p-8">
+        <LazySection className="text-center bg-card rounded-xl p-8">
           <h2 className="text-3xl font-bold text-primary mb-4">
             Let&apos;s Build Something Together
           </h2>
@@ -199,7 +200,7 @@ export default function AboutMePage() {
           >
             Get In Touch
           </Link>
-        </div>
+        </LazySection>
       </div>
     </div>
   );

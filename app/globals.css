@@ -151,3 +151,12 @@ a, a * , button, input, textarea, select, label, [role="button"] {
 .bento-label { display:block; margin-bottom:0.5rem; color: var(--muted); font-weight:600; }
 .bento-helper { color: var(--muted); font-size:0.875rem; margin-top:0.5rem; }
 
+
+/* Server-side lazy rendering utility
+   Defer rendering of offscreen content to improve performance.
+   The intrinsic size hints prevent layout shift before content becomes visible. */
+.content-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 600px;
+}
+
