@@ -61,9 +61,6 @@ export default function AboutMePage() {
           <h1 className="text-5xl font-bold text-primary mb-4 mt-8">
             Dhanniel Harvey B. Buan
           </h1>
-          <p className="text-xl text-muted">
-            Backend Developer | AI Engineer | Data analyst
-          </p>
         </LazySection>
 
         {/* Bio Section */}

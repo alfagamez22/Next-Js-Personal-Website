@@ -65,7 +65,7 @@ export default function LayoutShell({ children }: LayoutShellProps) {
           })}
         />
       )}
-      <main className={`${mainPadding} lg:pt-0 transition-all duration-300 mx-auto max-w-7xl px-4 min-h-screen`}>
+      <main className={`${mainPadding} lg:pt-0 transition-all duration-300 mx-auto max-w-10xl px-4 min-h-screen`}>
         {children}
       </main>
       <ScrollSnapRouter sensitivity={3} thresholdPx={50} />

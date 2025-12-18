@@ -7,113 +7,114 @@ import { Project } from '../types';
 
 export const projects: Project[] = [
   {
-    slug: 'ecommerce-platform',
-    title: 'E-Commerce Platform',
-    image: '/images/ecommerce-platform.jpg', // Access: public/images/ecommerce-platform.jpg
-    paragraph: 'A full-stack e-commerce platform built with Next.js and Stripe integration. Features include product catalog, shopping cart, secure checkout, order management, and an admin dashboard. The platform uses server-side rendering for optimal SEO and performance, with real-time inventory updates and email notifications.',
+    slug: 'thesis',
+    title: 'Project AIM: AI-Driven Image Processing Productivity Management and Interpreter System for Employee Classification and Performance Analysis in Local Coffee Shops Using the SAM2 and RT-DETR Algorithm ',
+    image: '/images/Thesispic.png', // Access: public/images/ecommerce-platform.jpg
+    paragraph: 'A full-stack e-commerce platform built with Python frameworks such as Django for web framework, Pytorch for our machine learning models, Matplotlib, and Pandas for live data-analytics visualization, and PostgreSQL for database management, FastAPI for serverless functions, RTSP for real-time video streaming.',
     techStackUsed: [
       {
-        name: 'Next.js',
+        name: 'Python',
         image: '/images/nextjs-icon.svg', // Optional - inline with name - Access: public/images/nextjs-icon.svg
       },
       {
-        name: 'TypeScript',
+        name: 'PostgreSQL',
         image: '/images/typescript-icon.svg', // Access: public/images/typescript-icon.svg
       },
       {
-        name: 'Stripe',
+        name: 'Javascript',
         image: '/images/stripe-icon.svg', // Access: public/images/stripe-icon.svg
       },
+
       {
-        name: 'PostgreSQL',
-        image: '/images/postgresql-icon.svg', // Access: public/images/postgresql-icon.svg
+        name: 'OpenCV',
+        image: '/images/stripe-icon.svg', // Access: public/images/stripe-icon.svg
       },
-      {
-        name: 'Tailwind CSS',
-        image: '/images/tailwind-icon.svg', // Access: public/images/tailwind-icon.svg
-      },
+      
+ 
     ],
-    githubLink: 'https://github.com/yourusername/ecommerce-platform', // Optional
-    websiteLink: 'https://ecommerce-demo.vercel.app', // Optional
+    githubLink: 'https://github.com/alfagamez22/Project-Thesis.git', // Optional
+    websiteLink: 'https://drive.google.com/file/d/1KAMcX75UgdjqUUKoq9BV7pwb-zHgRj6v/view?usp=sharing', // Optional
   },
   {
-    slug: 'ai-chatbot-assistant',
-    title: 'AI Chatbot Assistant',
-    image: '/images/ai-chatbot.jpg', // Access: public/images/ai-chatbot.jpg
-    paragraph: 'An intelligent chatbot powered by OpenAI\'s GPT-4 that provides real-time assistance and answers user queries. Built with streaming responses, conversation history, and context-aware interactions. The chatbot includes features like markdown rendering, code syntax highlighting, and multi-language support.',
+    slug: 'facebookscraper',
+    title: 'Facebook Marketplace Listings Scraper',
+    image: '/images/marketplace.png', // Placeholder removed
+    paragraph: 'A web scraper that extracts data from Facebook Marketplace listings based on user input.',
     techStackUsed: [
       {
-        name: 'React',
+        name: 'Node.js',
         image: '/images/react-icon.svg', // Access: public/images/react-icon.svg
       },
       {
-        name: 'OpenAI API',
+        name: 'Next.js',
         // image omitted - demonstrating optional field
       },
       {
-        name: 'Node.js',
+        name: 'Python',
         image: '/images/nodejs-icon.svg', // Access: public/images/nodejs-icon.svg
       },
       {
-        name: 'MongoDB',
+        name: 'Selenium',
         image: '/images/mongodb-icon.svg', // Access: public/images/mongodb-icon.svg
       },
     ],
-    githubLink: 'https://github.com/yourusername/ai-chatbot',
+    githubLink: 'https://github.com/alfagamez22/Facebook-Marketplace-Webscraper.git',
+    websiteLink: 'https://youtu.be/t1fO9XMOK8U',
     // websiteLink omitted - demonstrating optional field
   },
   {
-    slug: 'task-management-app',
-    title: 'Task Management Application',
-    image: '/images/task-manager.jpg', // Access: public/images/task-manager.jpg
-    paragraph: 'A collaborative task management application inspired by Trello and Asana. Features drag-and-drop functionality, real-time collaboration, task assignments, due dates, and progress tracking. Built with a focus on user experience and responsive design for seamless use across all devices.',
+    slug: 'opengl',
+    title: 'Using C++ for OpenGL WASD 3D Simulator',
+    image: '/images/gl.png', // Placeholder removed
+    paragraph: 'A 3D simulator built with C++ and OpenGL using GLUT and GLEW frameworks that allows users to navigate a 3D environment using WASD controls and control the size of the pyramids and the amount of the pyramids using instance of an object for optimization. The simulator features basic lighting, texture mapping, and camera controls.',
     techStackUsed: [
       {
-        name: 'Next.js',
+        name: 'C++',
         image: '/images/nextjs-icon.svg', // Access: public/images/nextjs-icon.svg
       },
       {
-        name: 'Prisma',
+        name: 'C MAKE',
         image: '/images/prisma-icon.svg', // Access: public/images/prisma-icon.svg
       },
       {
-        name: 'React DnD',
+        name: 'GLUT',
         image: '/images/react-icon.svg', // Access: public/images/react-icon.svg
       },
       {
-        name: 'NextAuth.js',
+        name: 'GLEW',
         image: '/images/nextauth-icon.svg', // Access: public/images/nextauth-icon.svg
       },
       {
-        name: 'Tailwind CSS',
+        name: 'OpenGL',
         image: '/images/tailwind-icon.svg', // Access: public/images/tailwind-icon.svg
       },
     ],
-    githubLink: 'https://github.com/yourusername/task-manager',
-    websiteLink: 'https://taskmanager-demo.vercel.app',
+    githubLink: 'https://github.com/alfagamez22/OpenGL-3D-World-Egypt.git',
+    websiteLink: 'https://youtu.be/CQ6JX0jdYT0',
   },
   {
-    slug: 'weather-dashboard',
-    title: 'Weather Dashboard',
-    image: '/images/weather-dashboard.jpg', // Access: public/images/weather-dashboard.jpg
-    paragraph: 'A beautiful and intuitive weather dashboard that displays current weather conditions, hourly forecasts, and 7-day predictions. Integrates with OpenWeatherMap API and includes features like location search, favorite locations, and weather alerts. The dashboard uses animated weather icons and responsive charts.',
+    slug: 'noteapp',
+    title: 'PHP Note taking Web App',
+    image: '/images/note.png', // Placeholder removed
+    paragraph: 'A simple note taking app built with PHP, AJAX, and MySQL that allows users to create, read, update, and delete notes with messaging functionality and friend system. The app features a clean and user-friendly interface with responsive design for mobile and desktop devices.',
     techStackUsed: [
       {
-        name: 'React',
+        name: 'PHP',
         image: '/images/react-icon.svg', // Access: public/images/react-icon.svg
       },
       {
-        name: 'TypeScript',
+        name: 'AJAX',
         image: '/images/typescript-icon.svg', // Access: public/images/typescript-icon.svg
       },
       {
-        name: 'Chart.js',
+        name: 'MySQL',
       },
       {
-        name: 'OpenWeather API',
+        name: 'JavaScript',
       },
     ],
-    websiteLink: 'https://weather-dashboard-demo.netlify.app',
+    websiteLink: 'https://youtu.be/E4XwpyihJW8',
+    githubLink: 'https://github.com/alfagamez22/Note-Taking-App-PHP-.git',
     // githubLink omitted - demonstrating optional field
   },
 ];

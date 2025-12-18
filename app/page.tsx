@@ -24,7 +24,6 @@ export default function RootPage() {
       {/* subtle theme-matching loading indicator while we redirect */}
       <div className="flex flex-col items-center gap-3">
         <div className="w-3 h-3 rounded-full bg-muted animate-pulse" aria-hidden="true" />
-        <span className="text-sm text-muted">Loading…</span>
       </div>
     </div>
   );

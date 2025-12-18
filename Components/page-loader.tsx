@@ -1,5 +1,5 @@
-'use client';
+// 'use client';
 
-export default function PageLoader({ children }: { children: React.ReactNode }) {
-  return <>{children}</>;
-}
+// export default function PageLoader({ children }: { children: React.ReactNode }) {
+//   return <>{children}</>;
+// }

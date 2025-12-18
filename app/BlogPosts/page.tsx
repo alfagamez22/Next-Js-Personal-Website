@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { getAllBlogPosts } from '@/lib/slugs/blog_posts';
 import { LazyServerSection } from '@/Components/lazy-server-section';
 
@@ -25,8 +26,15 @@ export default function BlogPostsPage() {
               className="block group bg-card rounded-xl p-6 border border-default hover:border-accent transition-all hover:shadow-[0_0_30px_rgba(88,166,255,0.15)]"
             >
               <div className="flex items-start gap-4">
-                {/* Author Image Placeholder */}
-                <div className="w-12 h-12 rounded-full bg-card flex-shrink-0" />
+                {/* Author Image */}
+                <div className="relative w-12 h-12 rounded-full overflow-hidden flex-shrink-0 border border-default">
+                  <Image
+                    src={post.authorImage}
+                    alt={post.authorName}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
 
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-2">

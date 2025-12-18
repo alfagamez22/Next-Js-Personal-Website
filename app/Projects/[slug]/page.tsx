@@ -1,5 +1,6 @@
 import { getProjectBySlug, getAllProjectSlugs } from '@/lib/slugs/projects';
 import Link from 'next/link';
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { LazyServerSection } from '@/Components/lazy-server-section';
 
@@ -30,13 +31,19 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
           </Link>
         </LazyServerSection>
 
-        {/* Project Image Placeholder */}
+        {/* Project Image */}
         <LazyServerSection>
-          <div className="aspect-video bg-card rounded-xl mb-8 relative overflow-hidden">
-            <div className="absolute inset-0" style={{ background: 'linear-gradient(90deg, transparent, rgba(88,166,255,0.06))' }} />
-            <div className="absolute inset-0 flex items-center justify-center">
-              <span className="text-6xl font-bold text-white/30">{project.title[0]}</span>
-            </div>
+          <div className="aspect-video bg-card rounded-xl mb-8 relative overflow-hidden border border-default">
+            {project.image ? (
+              <Image
+                src={project.image}
+                alt={project.title}
+                fill
+                className="object-cover"
+              />
+            ) : (
+              <div className="absolute inset-0 bg-card" />
+            )}
           </div>
         </LazyServerSection>
 

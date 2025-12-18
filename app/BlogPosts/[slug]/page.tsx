@@ -1,5 +1,6 @@
 import { getBlogPostBySlug, getAllBlogPostSlugs } from '@/lib/slugs/blog_posts';
 import Link from 'next/link';
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { LazyServerSection } from '@/Components/lazy-server-section';
 
@@ -40,7 +41,14 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
               {/* Author Info */}
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full bg-card" />
+                <div className="relative w-12 h-12 rounded-full overflow-hidden border border-default">
+                  <Image
+                    src={post.authorImage}
+                    alt={post.authorName}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
                 <div>
                   <p className="font-semibold text-primary">
                     {post.authorName}
@@ -60,8 +68,13 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           {/* Optional Paragraph Image */}
           {post.paragraphImage && (
             <LazyServerSection>
-              <div className="aspect-video bg-card rounded-xl mb-8 relative overflow-hidden">
-                <div className="absolute inset-0" style={{ background: 'linear-gradient(90deg, transparent, rgba(88,166,255,0.06))' }} />
+              <div className="aspect-video relative rounded-xl mb-8 overflow-hidden border border-default">
+                <Image
+                  src={post.paragraphImage}
+                  alt={post.title}
+                  fill
+                  className="object-cover"
+                />
               </div>
             </LazyServerSection>
           )}
